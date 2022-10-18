@@ -7,7 +7,9 @@ You (currently) have 4 columns to set up a certain look quickly. And below there
 For example, you can set the image you like to img2img and use a preset to get a different look quickly:
 ![img2img](https://user-images.githubusercontent.com/17021558/196466057-f7e3f1fb-596b-459d-b5a5-f5d68ba101d6.png)
 
-And then the bottom **Focus on** option adds a much larger amount of elements to the prompt thus strongly affecting the results. Some examples:
+And then the bottom **Focus on** option adds a much larger amount of elements to the prompt thus strongly affecting the results.
+
+# Examples
 Prompt of **Bearded man** without any input:
 ![00000-3368790946-Bearded man-tile](https://user-images.githubusercontent.com/17021558/196467191-36f6117d-edee-425a-a268-dd9d1136982c.jpg)
 With **Portrait** focus:
