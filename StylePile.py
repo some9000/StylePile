@@ -1,6 +1,6 @@
 import modules.scripts as scripts
 import gradio as gr
-import os
+#import os
 
 from modules.processing import process_images, Processed
 #from modules.shared import opts
@@ -12,7 +12,7 @@ from modules.processing import process_images, Processed
 
 ResultType = {
     "Not set":"", 
-    "Photography":", ((photograph)), highly detailed, sharp focus, 4k", 
+    "Photography":", ((photograph)), highly detailed, sharp focus, 8k, 4k", 
     "Digital art":", ((digital art)), (digital illustration), 4k, trending on artstation, trending on cgsociety, cinematic, agfacolor", 
     "Painting":", ((painting, canvas, fine art)), detailed", 
     "Sketch":", ((sketch, drawing)), pencil art, graphite, colored pencil, charcoal art, high contrast, 2 bit", 
@@ -23,8 +23,8 @@ ResultType = {
 
 ResultTypeNegatives = {
     "Not set":"", 
-    "Photography":", art, painting, rendering, drawing, sketch", 
-    "Digital art":", photography, painting, signature", 
+    "Photography":", blurry, art, painting, rendering, drawing, sketch", 
+    "Digital art":", blurry, rendering, photography, painting, signature", 
     "Painting":", photography, rendering, signature, wall", 
     "Sketch":", photography, rendering, painting, signature, text, margin", 
     "Classic Comics":", ((logo)), (title), text, speech bubbles, panels, signature, ((barcode)), margin, sticker", 
@@ -35,8 +35,8 @@ ResultTypeNegatives = {
 ResultStyle = {
     "Not set":"", 
     "Realism":", ((realistic)),(realism)", 
-    "Photorealism":", ((photorealism))", 
-    "Hyperrealism":", (hyperrealism)", 
+    "Photorealism":", ((photorealism)),detailed", 
+    "Hyperrealism":", (hyperrealism),(micro details)", 
     "Surrealism":", (surrealism)", 
     "Modern Art":", (modern art)", 
     "Painterly":", (painterly)", 
@@ -66,31 +66,31 @@ ResultColors = {
 
 ImageView = {
     "Not set":"", 
-    "Fisheye lens":", fisheye lens, 10mm, zoomed out, F/22.0, very far away, sharp", 
+    "Fisheye lens":", fisheye, 10mm, zoomed out, F/22.0, very far away, sharp", 
     "Super wide angle":", super wide angle, 20mm, zoomed out, F/11.0, far away, sharp", 
     "Wide angle":", wide angle, 25mm, 35mm, zoomed out, F/5.6, medium distance, sharp", 
-    "Portrait lens":", portrait lens, 50mm, F/2.8, 1m away", 
-    "Telephoto lens":", telephoto lens, 100mm, F/5.6, far away, sharp", 
-    "Super telephoto":", super telephoto lens, F/11.0, 200mm, 300mm, very far away, sharp", 
-    "Macro lens":", macro lens, extremely close, extremely detailed"
+    "Portrait lens":", portrait, 50mm, F/2.8, 1m away", 
+    "Telephoto lens":", telephoto, 100mm, F/5.6, far away, sharp", 
+    "Super telephoto":", super telephoto, F/11.0, 200mm, 300mm, very far away, sharp", 
+    "Macro lens":", macro, extremely close, extremely detailed",
+    "Close up":"(close up),worms-eye view",
+    "Birds-eye view":"(birds-eye view),distant"
 }
 
 ImageStyle = {
     "No focus":"", 
     "Portrait":"", 
-    "Pretty people":", Norman Rockwell, Franz Xaver Winterhalter, Jeremy Mann, Artgerm, Ilya Kuvshinov, Anges Cecile, Michael Garmash",
-    "Monsters":", monster, ugly, surgery, morbid, cut, open, rotten, mutilated, deformed, disfigured, malformed, missing limbs, extra limbs, bloody, slimy, goo, Richard Estes, Audrey Flack, Ralph Goings, Robert Bechtle, Tomasz Alen Kopera, H.R.Giger, Joel Boucquemont, artstation",
-    "Landscapes":"", 
-    "Scenes":", warm"
+    "Elegant painting":", Norman Rockwell, Franz Xaver Winterhalter, Jeremy Mann, Artgerm, Ilya Kuvshinov, Anges Cecile, Michael Garmash",
+    "Monsters":", monster, ugly, surgery, evisceration, morbid, cut, open, rotten, mutilated, deformed, disfigured, malformed, missing limbs, extra limbs, bloody, slimy, goo, Richard Estes, Audrey Flack, Ralph Goings, Robert Bechtle, Tomasz Alen Kopera, H.R.Giger, Joel Boucquemont, artstation",
+    "Landscapes":""
 }
 
 ImageStyleNegatives = {
     "No focus":"", 
     "Portrait":", ((ugly)), ((duplicate)), (morbid), ((mutilated)), (mutated), (deformed), (disfigured), (extra limbs), (malformed limbs), (missing arms), (missing legs), (extra arms), (extra legs), (fused fingers), (too many fingers), long neck, low quality, worst quality", 
-    "Pretty people":", ((ugly)), (mutilated), (bad anatomy), (bad proportions), bad hands, text, error, missing fingers, extra digit, cropped, low quality, worst quality",
-    "Monsters":"",
-    "Landscapes":", low quality, noise, lowres", 
-    "Scenes":", warm"
+    "Elegant painting":", ((ugly)), (mutilated), (bad anatomy), (bad proportions), bad hands, text, error, missing fingers, extra digit, cropped, low quality, worst quality",
+    "Monsters":"(attractive),pretty,smooth,cartoon,pixar,human",
+    "Landscapes":", low quality, noise, lowres"
 }
 
 class Script(scripts.Script):
