@@ -20,4 +20,4 @@ And with **Monsters** focus for some repulsive results:
 ![00007-3600129258-Bearded man, monster, ugly, surgery, morbid, cut, open, rotten, mutilated, deformed, disfigured, malformed, missing limbs, extra-tile](https://user-images.githubusercontent.com/17021558/196467721-b959d54d-a0b8-4581-b7ba-fd164570fe92.png)
 
 # Installation
-Just download StylePile.py and drop it into your **stable-diffusion-webui/scripts** folder. Upon next launch it should be available at the bottom **Script** dropdown.
+Just download StylePile.py from above (either click Code - Download ZIP and then extract from there OR right click the file name and pick Save link as) and drop it into your **stable-diffusion-webui/scripts** folder. Upon next launch it should be available at the bottom **Script** dropdown.
