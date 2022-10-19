@@ -23,4 +23,4 @@ Also, not all adjustments will work with all prompts, such as this **Robots** on
 So you should just mix and match and experiment to find out which styles work well together. Or don't, that also produces interesting results.
 
 # Installation
-Just download **StylePile.py** from above - click **Code - Download ZIP** and then extract the .py file from there and drop it into your **stable-diffusion-webui/scripts** folder. Upon next launch it should be available at the bottom **Script** dropdown.
+Click the green **Code** button at the top of the page, select the **Download ZIP** option. When done extract the **StylePile.py** file from there and drop it into your **stable-diffusion-webui/scripts** folder. Upon next launch it should be available at the bottom **Script** dropdown.
