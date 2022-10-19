@@ -1,5 +1,5 @@
 # StylePile
-A helper script for AUTOMATIC1111/stable-diffusion-webui
+A simple helper script for AUTOMATIC1111/stable-diffusion-webui
 
 Basically a mix and match of keywords to quickly get different results without wasting a lot of time writing prompts. Currently has four main categories that affect your results. As well as some more detailed presets for different styles. Hopefully these can be improved with ideas from the users. Basic interface looks like this (at the bottom):
 ![MainScreen](https://user-images.githubusercontent.com/17021558/196465434-4bfe463b-f1c3-4bce-8860-842cb5bedb72.png)
@@ -20,4 +20,4 @@ And with **Monsters** focus for some repulsive results:
 ![00007-3600129258-Bearded man, monster, ugly, surgery, morbid, cut, open, rotten, mutilated, deformed, disfigured, malformed, missing limbs, extra-tile](https://user-images.githubusercontent.com/17021558/196467721-b959d54d-a0b8-4581-b7ba-fd164570fe92.png)
 
 # Installation
-Just download StylePile.py from above (either click Code - Download ZIP and then extract from there OR right click the file name and pick Save link as) and drop it into your **stable-diffusion-webui/scripts** folder. Upon next launch it should be available at the bottom **Script** dropdown.
+Just download **StylePile.py** from above (either click **Code - Download ZIP** and then extract from there OR right click the file name and pick **Save link as**) and drop it into your **stable-diffusion-webui/scripts** folder. Upon next launch it should be available at the bottom **Script** dropdown.
