@@ -12,11 +12,11 @@ Ok, let's imagine you would like to generate a **Lady knight in medieval armor**
 
 ![00324-1348758302-lady knight in medieval armor](https://user-images.githubusercontent.com/17021558/197111727-29c9e389-d871-48f6-b7d0-a97aa5c14775.png)
 
-It does represent the main idea. But, it is boring and probably not what we had in mind. Let's load **StylePile** from the dropdown on the bottom left and see what happens.
+It does represent the main idea. But, it is boring and probably not what we had in mind. Let's load **StylePile** from the dropdown on the bottom left, hit Generate and see what happens.
 
 ![00325-1348758302-lady knight in medieval armor](https://user-images.githubusercontent.com/17021558/197112034-733c672a-0a9e-40e4-90fd-3409ff354cdf.png)
 
-Nothing is selected so why did it change? Well, there are some default keywords always in use that try to prevent text, low image quality etc. But this is boring, let's set **Image style** to **Photography**:
+Nothing is selected and the prompt is the same so why did it change? Well, there are some default keywords always in use that try to prevent text, low image quality etc. But this is boring, let's set **Image style** to **Photography**:
 
 ![00326-1348758302-A photograph of  lady knight in medieval armor, ((analog photo)), (detailed), ZEISS, studio quality, 8k, 4k, uhd](https://user-images.githubusercontent.com/17021558/197112225-906a9cb1-86ea-48a5-a21a-5b8dd095875b.png)
 
