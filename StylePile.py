@@ -1,97 +1,130 @@
+
+# A simple helper script for AUTOMATIC1111/stable-diffusion-webui.
+# Enter your keywords and let the selections here help you determine the look.
+# https://replicate.com/methexis-inc/img2prompt has been an incredible help for improving the prompts.
+
 import modules.scripts as scripts
 import gradio as gr
-#import os
 
 from modules.processing import process_images, Processed
-#from modules.shared import opts
 
-# not yet
-
-#BASE_STEPS=40
-#BASE_SCALE=10
+ResultBefore = {
+    "Not set":"", 
+    "Photography":"A photograph of  ", 
+    "Digital art":"Digital art of  ", 
+    "3D Rendering":"3D rendering of ", 
+    "Painting":"A painting of ", 
+    "Sketch":"A sketch of ", 
+    "Classic Comics":"Comic book art of ", 
+    "Modern Comics":"Comic book art of ",
+    "Manga":"Manga comic art of ",
+    "Vector art":"A vector image of "
+}
 
 ResultType = {
     "Not set":"", 
-    "Photography":", ((photograph)), highly detailed, sharp focus, 8k, 4k", 
-    "Digital art":", ((digital art)), (digital illustration), 4k, trending on artstation, trending on cgsociety, cinematic, agfacolor", 
-    "Painting":", ((painting, canvas, fine art)), detailed", 
-    "Sketch":", ((sketch, drawing)), pencil art, graphite, colored pencil, charcoal art, high contrast, 2 bit", 
-    "Classic Comics":", ((storybook drawing, graphic novel, comic book)), Jack Kirby, Frank Miller, Steve Ditko, John Romita, Neal Adams", 
-    "Modern Comics":", ((comic book)), Jim Lee, john romita jr, Cory Walker, ryan ottley",
-    "Manga":", ((manga,anime)), Katsuhiro Otomo, Naoki Urasawa, Hiroya Oku, Hiromu Arakawa, Junji Ito,danbooru, zerochan art, kyoto animation"
+    "Photography":", ((analog photo)), (detailed), ZEISS, studio quality, 8k, 4k, uhd", 
+    "Digital art":", ((digital painting)), trending on artstation, trending on cgsociety, corel painter, 8k, 4k, uhd", 
+    "3D Rendering":", ((render)), (global illumination), RayTracing, hyper realism, high quality, trending on cgsociety, trending on artstation, 8k, 4k, uhd", 
+    "Painting":", ((canvas, fine art)), detailed", 
+    "Sketch":", ((drawing)), (pencil art), (pen), graphite, ink, high contrast, 2 bit", 
+    "Classic Comics":", ((storybook drawing)), ((graphic novel)), (line art, ink), Jack Kirby, Will Eisner, Frank Miller, Steve Ditko, Brian Bolland, John Romita, Neal Adams", 
+    "Modern Comics":", ((digital comic)), Jim Lee, Todd McFarlane, Cory Walker, ryan ottley",
+    "Manga":", ((danbooru)), ((zerochan art)), Blame!, JoJo's Bizarre Adventure, Pure Trance, Phoenix, Kokou no Hito, Battle Angel Alita, Dorohedoro, Horror,Collector, Homunculus",
+    "Vector art":"((low detail)), flat shading, sharp, hd, 2 bit"  #,featured on dribble, behance contest winner"
 }
 
 ResultTypeNegatives = {
     "Not set":"", 
-    "Photography":", blurry, art, painting, rendering, drawing, sketch", 
-    "Digital art":", blurry, rendering, photography, painting, signature", 
-    "Painting":", photography, rendering, signature, wall", 
-    "Sketch":", photography, rendering, painting, signature, text, margin", 
-    "Classic Comics":", ((logo)), (title), text, speech bubbles, panels, signature, ((barcode)), margin, sticker", 
-    "Modern Comics":", ((logo)), (title), text, speech bubbles, panels, signature, ((barcode)), margin, sticker", 
-    "Manga":", ((logo)), (title), text, panels, speech bubbles, signature, ((barcode)), margin, sticker" 
+    "Photography":", ((painting)), ((drawing)), ((sketch)), ((camera)), ((rendering))", 
+    "Digital art":", blurry, ((photography)), ui, windows, cursor", 
+    "3D Rendering":", ((painting)), (photography), low detail, ui, windows, cursor", 
+    "Painting":", (((frame))), rendering, photography, brush, pencil", 
+    "Sketch":", (photography), frame, rendering, painting, pencil, brush", 
+    "Classic Comics":", (photography), rendering, blurry", 
+    "Modern Comics":", (photography), rendering, blurry", 
+    "Manga":", (photography), rendering, blurry",
+    "Vector art":"(((text))), ((photography)), ((painting)), titles, ui, windows, cursor"
 }
 
 ResultStyle = {
     "Not set":"", 
-    "Realism":", ((realistic)),(realism)", 
-    "Photorealism":", ((photorealism)),detailed", 
-    "Hyperrealism":", (hyperrealism),(micro details)", 
-    "Surrealism":", (surrealism)", 
-    "Modern Art":", (modern art)", 
-    "Painterly":", (painterly)", 
-    "Abstract":", (abstract art), ", 
-    "Pop Art":", (pop art)", 
-    "Impressionist":", (impressionist art)", 
-    "Cubism":", (cubism)", 
-    "Fantasy":", (fantasy art)"
+    "Realism":", (((realistic))), ((realism)), (real)", 
+    "Photorealism":", (((photorealistic))), ((detailed)), transfer", 
+    "Hyperrealism":", (((hyperrealism))), ((superrealism)), (highly detailed), vivid", 
+    "Surrealism":", (((surrealism))), ((dream)), (juxtaposition), irrational", 
+    "Modern Art":", (((modern art))), ((rhytm)), (balance), proportion", 
+    "Painterly":", (((painterly))),(large brushes),(emphasis)", 
+    "Abstract":", ((abstract art)), Art Deco, Art Nouveau, Avant-garde, Baroque, Bauhaus", 
+    "Pop Art":", (((pop art))), roy lichtenstein, claes oldenburg, james rosenquist, andy warhol, wayne thiebaud, lines, shapes, space", 
+    "Impressionist":", (((impressionist art))), (Gestalt brushstroke), pure colors, composition", 
+    "Cubism":", (((cubism))), lines, primary colors", 
+    "Fantasy":", (((fantasy art))), ((mythological)), supernatural, magical"
 }
 
 ResultColors = {
     "Not set":"", 
-    "Warm":", warm", 
-    "Cool":", cool", 
-    "Colorful":", colorful", 
-    "Saturated":", saturated", 
-    "Low saturation":", low coloration", 
-    "Desaturated":", desaturated", 
-    "Grayscale":", grayscale", 
-    "Black and white":", black and white", 
-    "Complementary":", complementary-colors", 
-    "Non-complementary":", non-complementary colors", 
-    "Chaotic":"chaotic colors", 
-    "HDR":"HDR", 
-    "Light":"light"
+    "Chaotic":", ((chaotic colors))",
+    "Colorful":", ((colorful))", 
+    "Vivid":" ((vivid)), ((vibrant))",
+    "Muted colors":", ((muted colors))", 
+    "Desaturated":", ((desaturated))", 
+    "Grayscale":", ((grayscale, monochrome))", 
+    "Black and white":", ((black and white, 2 colors))", 
+    "Complementary":", ((complementary colors))", 
+    "Non-complementary":", ((non-complementary colors))"
 }
 
 ImageView = {
     "Not set":"", 
-    "Fisheye lens":", fisheye, 10mm, zoomed out, F/22.0, very far away, sharp", 
-    "Super wide angle":", super wide angle, 20mm, zoomed out, F/11.0, far away, sharp", 
-    "Wide angle":", wide angle, 25mm, 35mm, zoomed out, F/5.6, medium distance, sharp", 
-    "Portrait lens":", portrait, 50mm, F/2.8, 1m away", 
-    "Telephoto lens":", telephoto, 100mm, F/5.6, far away, sharp", 
-    "Super telephoto":", super telephoto, F/11.0, 200mm, 300mm, very far away, sharp", 
-    "Macro lens":", macro, extremely close, extremely detailed",
-    "Close up":"(close up),worms-eye view",
-    "Birds-eye view":"(birds-eye view),distant"
+    "Fisheye lens":", ((photo taken with fisheye lens))", 
+    "Ultra-wide":", ((photo taken with ultrawide lens))", 
+    "Wide-angle":", ((photo taken with wide angle lens))", 
+    "Portrait lens":", ((portrait)), Nikon 50mm f/1.8, Sigma f/1.4, Canon EF 85mm", 
+    "Telephoto lens":", ((photo taken with telephoto lens))", 
+    "Super telephoto":", ((photo taken with a super telephoto lens))", 
+    "Macro lens":", ((macro)),",
+    "Close up":"(close up), worms-eye view",
+    "Birds-eye view":"(birds-eye view), distant"
 }
 
 ImageStyle = {
     "No focus":"", 
-    "Portrait":"", 
-    "Elegant painting":", Norman Rockwell, Franz Xaver Winterhalter, Jeremy Mann, Artgerm, Ilya Kuvshinov, Anges Cecile, Michael Garmash",
-    "Monsters":", monster, ugly, surgery, evisceration, morbid, cut, open, rotten, mutilated, deformed, disfigured, malformed, missing limbs, extra limbs, bloody, slimy, goo, Richard Estes, Audrey Flack, Ralph Goings, Robert Bechtle, Tomasz Alen Kopera, H.R.Giger, Joel Boucquemont, artstation",
-    "Landscapes":""
+
+    "Portraits (tick Restore faces above for best results)":", dribble, precisionism, associated press photo, award-winning",
+
+    "Feminine and extra attractive (tick Restore faces above for best results)":", ((Feminine)), (effeminate), attractive, pretty, handsome, hypnotic, beautiful, elegant, sensual, enchanting, precisionism, angelic photograph, associated press photo, award-winning",
+
+    "Masculine and extra attractive (tick Restore faces above for best results)":", ((Masculine)), (manly),  attractive, pretty, handsome, fit, precisionism, associated press photo, award-winning",
+
+    "Monsters":", monster, ugly, surgery, evisceration, morbid, cut, open, rotten, mutilated, deformed, disfigured, malformed, missing limbs, extra limbs, bloody, slimy, goo, Richard Estes, Audrey Flack, Ralph Goings, Robert Bechtle, Tomasz Alen Kopera, H.R.Giger, Joel Boucquemont, artstation, thematic background",
+
+    "Robots":", robot, cyborg, robotic enhancements, electronics, mechanical elements, screws, mainboard, tim hildebrandt, wayne barlowe, bruce pennington, donato giancola, larry elmore, oil on canvas, masterpiece, artstation, pixiv, thematic background",
+    
+    "Retrofuturistic":", Clarence Holbrook Carter, Ed Emshwiller, cgsociety, retrofuturism, dystopian art, future tech, Fallout, chiaroscuro",
+
+    "Landscapes":", naturalism, land art, regionalism, shutterstock contest winner, trending on unsplash, featured on flickr"
 }
 
 ImageStyleNegatives = {
     "No focus":"", 
-    "Portrait":", ((ugly)), ((duplicate)), (morbid), ((mutilated)), (mutated), (deformed), (disfigured), (extra limbs), (malformed limbs), (missing arms), (missing legs), (extra arms), (extra legs), (fused fingers), (too many fingers), long neck, low quality, worst quality", 
-    "Elegant painting":", ((ugly)), (mutilated), (bad anatomy), (bad proportions), bad hands, text, error, missing fingers, extra digit, cropped, low quality, worst quality",
-    "Monsters":"(attractive),pretty,smooth,cartoon,pixar,human",
-    "Landscapes":", low quality, noise, lowres"
+
+    "Portraits (tick Restore faces above for best results)":", mutilated, disfigured, unnatural, bad anatomy, morbid, too many fingers, deformed palm,  deformed arm, deformed limbs, extra limbs, missing limbs, unnatural pose", 
+
+    "Feminine and extra attractive (tick Restore faces above for best results)":", ((ugly)), (mutilated), disfigured, unnatural, bad anatomy, morbid, too many fingers, deformed palm, deformed arm, deformed limbs, extra limbs, missing limbs, unnatural pose",
+
+    "Masculine and extra attractive (tick Restore faces above for best results)":", ((ugly)), (mutilated), disfigured, unnatural, bad anatomy, morbid, too many fingers, deformed palm, deformed arm, deformed limbs, extra limbs, missing limbs, unnatural pose",
+
+    "Monsters":", (attractive), pretty, smooth,cartoon,pixar,human, low quality, worst quality",
+
+    "Robots":", cartoon, low quality, worst quality",
+    
+    "Retrofuturistic":", extra limbs, malformed limbs, modern, low quality, worst quality",
+
+    "Landscapes":"((hdr)), ((terragen)), ((rendering)), (high contrast)"
 }
+
+AlwaysBad = ",(((cropped))), (((watermark))), ((logo)), ((barcode)), ((UI)), ((signature)), ((text)), ((label)), ((error)), ((title)), stickers, markings, speech bubbles, lines, cropped, lowres, low quality, artifacts"
 
 class Script(scripts.Script):
 
@@ -100,30 +133,23 @@ class Script(scripts.Script):
 
     def ui(self, is_img2img):
 
-        with gr.Blocks(css=".gradio-container {background-color: red}"):
-
-            with gr.Row():
+        with gr.Blocks(title="StylePile"):
+            with gr.Row(variant='panel'):
+                poImageStyle = gr.Dropdown(list(ImageStyle.keys()),label = "Focus on:", value="No focus")
+            with gr.Row(variant='panel'):
+                poTempText = gr.Textbox(label = "Hints",max_lines=4,placeholder = 
+                "Hello, StylePile here.\nUntil some weird bug gets fixed you will see this even if the script itself is not active. Meanwhile, some hints to take your artwork to new heights:\nUse the 'Focus on' dropdown to select complex presets. Toggle selections below (with or without Focus) to affect your results. Mix and match to get some interesting results. \nAnd some general Stable Diffusion tips that will take your designs to next level:\nYou can add parenthesis to make parts of the prompt stronger. So (((cute))) kitten will make it extra cute (try it out). This is alsow important if a style is affecting your original prompt too much. Make that prompt stronger by adding parenthesis around it, like this: ((promt)).\nYou can type promts like [A|B] to sequentially use terms one after another on each step. So, like [cat|dog] will produce a hybrid catdog. And [A:B:0.4] to switch to other terms after the first one has been active for a certain percentage of steps. So [cat:dog:0.4] will build a cat 40% of the time and then start turning it into a dog. This needs more steps to work properly.")
+            with gr.Row(variant='panel'):
                 poResultType = gr.Radio(list(ResultType.keys()), label="Image type", value="Not set")
                 poResultStyle = gr.Radio(list(ResultStyle.keys()), label="Visual style", value="Not set")
                 poResultColors = gr.Radio(list(ResultColors.keys()), label="Colors", value="Not set")
                 poImageView = gr.Radio(list(ImageView.keys()), label="View", value="Not set")
-                
-            with gr.Row():
-                poImageStyle = gr.Radio(list(ImageStyle.keys()), label="Focus on (Adds extra prompts to improve results)", value="No focus")
-            
-            #with gr.Row():
-            #    TextToShow = gr.Text(value=poResultType, label="Extra keywords", visible=True, placeholder="Selected keywords will appear here")
-
         return [poResultType, poResultStyle, poResultColors, poImageView, poImageStyle]
 
     def run(self, p, poResultType, poResultStyle, poResultColors, poImageView, poImageStyle):
-        p.do_not_save_grid = True
-        # Add the prompt from above
-        p.prompt += ResultType[poResultType] + ResultStyle[poResultStyle] + ResultColors[poResultColors] + ImageView[poImageView] + ImageStyle[poImageStyle]
-        p.negative_prompt += ResultTypeNegatives[poResultType] + ImageStyleNegatives[poImageStyle]
-      
-#        p.cfg_scale=BASE_SCALE
-#        p.steps = BASE_STEPS
+
+        p.prompt = ResultBefore[poResultType] + p.prompt + ResultType[poResultType] + ResultStyle[poResultStyle] + ResultColors[poResultColors] + ImageView[poImageView] + ImageStyle[poImageStyle]
+        p.negative_prompt += ResultTypeNegatives[poResultType] + ImageStyleNegatives[poImageStyle] + AlwaysBad
 
         proc = process_images(p)
         return proc
