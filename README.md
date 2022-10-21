@@ -58,7 +58,7 @@ Also, not all adjustments will work with all prompts, such as this **Robots** on
 
 So you should just mix and match and experiment to find out which styles work well together. Or don't, that also produces interesting results.
 
-#With img2img
+# With img2img
 For example, you liked that lady knight example from above, but would prefer it as a painting. Just transfer it to img2img, mix styles with Focus and get a pleasant result quickly (but, preferrably do a batch, Stable Diffusion still doesn't magically make every result great). 
 
 ![2022-10-21 09 56 57 127 0 0 1 8469e9f6d637](https://user-images.githubusercontent.com/17021558/197132497-f5d6b9cb-7ac1-4c83-94ba-4b0b13fc90ef.png)
