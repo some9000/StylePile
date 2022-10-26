@@ -2,9 +2,12 @@
 # Enter your keywords and let the selections help you determine the look.
 # https://replicate.com/methexis-inc/img2prompt has been an incredible help for improving the prompts.
 # https://docs.google.com/document/d/1ZtNwY1PragKITY0F4R-f8CarwHojc9Wrf37d0NONHDg/ has been equally super important.
+# Huge thanks to https://github.com/xram64 for helping fix the interface
 
 import modules.scripts as scripts
 import gradio as gr
+from os import path
+from modules.paths import script_path
 
 from modules.processing import process_images, Processed
 
@@ -27,16 +30,16 @@ ResultBefore = {
 ResultType = {
     "Not set":"", 
     "Photography":", 8K, Sharp, Realistic, Professional photograph, Masterpiece", 
-    "Digital art":"", 
+    "Digital art":", featured on cgsociety, featured on artstation", 
     "3D Rendering":", art by senior artist, featured on cgsociety, featured on artstation", 
-    "Painting":", ", 
+    "Painting":"", 
     "Drawing":"", 
-    "Vector art":", behance contest winner"
+    "Vector art":", Unsplash, Behance"
 }
 
 ResultTypeNegatives = {
     "Not set":"", 
-    "Photography":", Out of focus, Wedding photo, Frame, Painting", 
+    "Photography":", Out of focus, Wedding photo, Frame, Painting, tumblr", 
     "Digital art":", 3D rendering", 
     "3D Rendering":", 2D art", 
     "Painting":", ((Photography)), frame", 
@@ -182,9 +185,9 @@ FocusOn = {
 
     "Portraits":", portrait, two arms, two legs, 5 fingers per hand, correct proportions",
 
-    "Feminine+Attractive":", ((Feminine)), (effeminate), attractive, pretty, handsome, hypnotic, beautiful, elegant, sensual, portrait, two arms, two legs, 5 fingers per hand, correct proportions",
+    "Feminine+Attractive":", ((Feminine)), (effeminate), attractive, pretty, handsome, hypnotic, beautiful, elegant, sensual, two arms, two legs, 5 fingers per hand, ideal proportions, correct proportions",
 
-    "Masculine+Attractive":", ((Masculine)), (manly), attractive, pretty, handsome, hypnotic, beautiful, elegant, sensual, portrait, two arms, two legs, 5 fingers per hand, correct proportions",
+    "Masculine+Attractive":", ((Masculine)), (manly), attractive, pretty, handsome, hypnotic, rugged, buff, muscular, strong, two arms, two legs, 5 fingers per hand, ideal proportions, correct proportions",
 
     "WaiFusion":", computer art, anime aesthetic, (((anime))), an ultrafine detailed painting, Artstation contest winner, trending on Artstation, deviantart contest winner, hd",
 
@@ -231,7 +234,7 @@ class Script(scripts.Script):
         return "StylePile"
 
     def ui(self, is_img2img):
-        with gr.Blocks():
+        with gr.Group() as TabContainer:
             with gr.Tab("StylePile"):
                 with gr.Row():
                     poResultType = gr.Dropdown(list(ResultType.keys()), label="Image type", value="Not set")
@@ -243,10 +246,17 @@ class Script(scripts.Script):
                         poResultStyle = gr.Radio(list(ResultStyle.keys()), label="Visual style", value="Not set")
                     with gr.Column():
                         poArtist = gr.Radio(list(Artists.keys()),label="Artist", value="Not set")
+
+            with gr.Tab("Visual Style examples") as StyleTab:
+                poVisualStyleHint = gr.Image(show_label=False,interactive=False,value=path.join(script_path, "scripts", "StyleGuide.png"))
+
+            with gr.Tab("Artist examples") as ArtistTab:
+                poArtistHint = gr.Image(show_label=False,interactive=False,value=path.join(script_path, "scripts", "Artists.png"))
+
             with gr.Tab("Help"):
-                gr.Markdown(
+                poHelpText = gr.Markdown(
                 """
-                ## Hello, StylePile here.
+                ## Hello, StylePile here
                 ### Introduction
                 **StylePile** is basically a mix and match system for adding elements to prompts that affect the style of the result. Hence the name. By default, these elements are placed in a specific way and given strength values, so the result sort-of evolves. I have generated hundreds of images for each main **Image type** and tweaked the keywords to attempt giving expected results most of the time. Certainly, your suggestions for improvements are very welcome.
                 ### Workflow
@@ -254,23 +264,17 @@ class Script(scripts.Script):
 
                 Moving on, adding a **Visual style** will affect how that drawing looks. Either it will be more realistic or artistic or look like a comic book etc. In general, this is a really strong element for getting the look you want. Beyond that, you can select an **Artist** and that will have an influence on the general look of the result. Examples of both these selections can be seen on respective tabs to the right of this one. 
                 You can, and should, freely mix and match these settings to get different results. Classic painting styles affected or affecting 3D look quite interesting. If it feels like the style is too weak, raise CFG scale to 15, 20 or more.
-                ### Hints
+                ### Tips for better results
                 Parenthesis can be added to make parts of the prompt stronger. So (((cute))) kitten will make it extra cute (try it out). This is also important if a style is affecting your original prompt too much. Make that prompt stronger by adding parenthesis around it, like this: ((promt)).                
                 Prompts can be split like [A|B] to sequentially use terms one after another on each step. [cat|dog] will produce a hybrid catdog.
                 And using [A:B:0.4] will switch to other terms after the first one has been active for a certain percentage of steps. [cat:dog:0.4] will build a cat 40% of the time and then start turning it into a dog. This needs more steps to work properly.
                 ### Conclusion
                 I made this because manually changing keywords, looking up possible styles, etc was a pain. It is meant as a fun tool to explore possibilities and make learning Stable Diffusion easier. If you have some ideas or, better yet, would like to contribute in some way just visit https://github.com/some9000/StylePile 
                 """)
+                
+        return [poResultType, poResultStyle, poResultColors, poImageView, poFocusOn, poArtist, poHelpText, poVisualStyleHint, poArtistHint, TabContainer]
 
-            with gr.Tab("Visual Style examples") as StyleTab:
-                poVisualStyleHint = gr.Image(show_label=False,interactive=False,value="scripts/StyleGuide.png")
-
-            with gr.Tab("Artist examples") as ArtistTab:
-                poArtistHint = gr.Image(show_label=False,interactive=False,value="scripts/Artists.png")
-
-        return [poResultType, poResultStyle, poResultColors, poImageView, poFocusOn, poArtist]
-
-    def run(self, p, poResultType, poResultStyle, poResultColors, poImageView, poFocusOn, poArtist):
+    def run(self, p, poResultType, poResultStyle, poResultColors, poImageView, poFocusOn, poArtist, poHelpText, poVisualStyleHint, poArtistHint, TabContainer):
         # Combine all our parameters with user's prompt
         
         p.prompt = ResultBefore[poResultType] + p.prompt + Artists[poArtist] + ResultType[poResultType] + ResultStyle[poResultStyle] + ResultColors[poResultColors] + ImageView[poImageView] + FocusOn[poFocusOn]
