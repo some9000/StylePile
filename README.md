@@ -1,7 +1,8 @@
-# StylePile
-A simple helper script for AUTOMATIC1111/stable-diffusion-webui
+![Logo](https://user-images.githubusercontent.com/17021558/197962979-43290ce2-9a62-49c7-8295-5ad3fcdd1df0.png)
 
-Basically a mix and match of keywords to quickly get different results without wasting a lot of time writing prompts. Currently has four main categories that affect your results. As well as some more detailed presets for different styles. Hopefully these can be improved with ideas from the users. Basic interface looks like this (at bottom left):
+StylePile* is as a script for https://github.com/AUTOMATIC1111/stable-diffusion-webui intended to help generating better images faster. It has a fairly large selection of parameters that can be mixed and matched to get different results without wasting a lot of time on writing prompts. Basically, it takes the keyword entry and wraps it around with several layers of additional keywords. This helps guide stable diffusion closer to the result you want to see. In addition to that, more complex Focus presets are also available that feature a much larger amount of more specific keywords.
+
+<sub>*Yes, it is meant to be written together, pun intended.</sub>
 
 ![2022-10-21 09 18 01 127 0 0 1 e54ff6f17319](https://user-images.githubusercontent.com/17021558/197129750-92ce8e86-c154-4c28-9224-548f4e0df418.png)
 
