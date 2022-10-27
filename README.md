@@ -1,3 +1,5 @@
+If you have the skills and would like to help the project, please have a look here: https://github.com/some9000/StylePile/discussions/8
+
 # StylePile
 A simple helper script for AUTOMATIC1111/stable-diffusion-webui
 
