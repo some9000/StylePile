@@ -4,34 +4,39 @@
 # https://docs.google.com/document/d/1ZtNwY1PragKITY0F4R-f8CarwHojc9Wrf37d0NONHDg/ has been equally super important.
 # Huge thanks to https://github.com/xram64 for helping fix the interface
 
+# Portrait prompt - Portrait of an attractive young lady, flower field background
+# Landscape prompt - mall house in the middle of a forest near a lake
+
+# Negatives - watermark, label, text
+
+# Seed - 666
+
+import copy
+
 import modules.scripts as scripts
 import gradio as gr
+
 from os import path
 from modules.paths import script_path
+from modules.shared import opts, cmd_opts, state
 
 from modules.processing import process_images, Processed
 
 ResultBefore = {
     "Not set":"", 
-
     "Photography":"High quality photo of ", 
-
     "Digital art":"Digital art of ", 
-
     "3D Rendering":"3D rendering of ", 
-
     "Painting":"Painting of ", 
-
     "Drawing":"Drawing of ", 
-
     "Vector art":"Vector art of "
 }
 
 ResultType = {
     "Not set":"", 
     "Photography":", 8K, Sharp, Realistic, Professional photograph, Masterpiece", 
-    "Digital art":", featured on cgsociety, featured on artstation", 
-    "3D Rendering":", art by senior artist, featured on cgsociety, featured on artstation", 
+    "Digital art":", featured on CGSociety, featured on ArtStation", 
+    "3D Rendering":", art by senior artist, featured on CGSociety, featured on ArtStation, Maya 3D, ZBrush Central", 
     "Painting":"", 
     "Drawing":"", 
     "Vector art":", Unsplash, Behance"
@@ -40,45 +45,90 @@ ResultType = {
 ResultTypeNegatives = {
     "Not set":"", 
     "Photography":", Out of focus, Wedding photo, Frame, Painting, tumblr", 
-    "Digital art":", 3D rendering", 
-    "3D Rendering":", 2D art", 
+    "Digital art":", 3D rendering, Screenshot, Software, UI", 
+    "3D Rendering":", 2D art, Screenshot, Software, UI, computer screen, multiple poses, different poses", 
     "Painting":", ((Photography)), frame", 
     "Drawing":", Photography, Artifacts, Table, Paper, Pencils, Wall", 
     "Vector art":", ((Watermark)), ((Text)), Detailed, Gradients, Disproportionate, Noise"
 }
 
+ResultMood = {
+    "Not set":"",
+    "Happy":"happy ",
+    "Sad":"sad ",
+    "Frightened":"frightened ",
+    "Angry":"angry ",
+    "Surprised":"surprised ",
+    "Disgusted":"disgusted ",
+    "Embarrassed":"embarrassed ",
+    "Amused":"amused ",
+    "Guilty":"guilty ",
+    "Proud":"proud ",
+    "Ashamed":"ashamed ",
+    "Relieved":"relieved ",
+    "Satisfied":"satisfied ",
+    "Evil":"evil ",
+}
+
 Artists= {
     "Not set":"",
-    "Alex Grey":" by Alex Grey",
-    "Alexander Jansson":" by Alexander Jansson",
-    "Alphonse Mucha":" by Alphonse Mucha",
-    "Ansel Adams":" by Ansel Adams",
-    "Banksy":" by Banksy",
-    "Beeple":" by Beeple",
-    "Bob Eggleton":" by Bob Eggleton",
-    "Caspar David Friedrich":" by Caspar David Friedrich",
-    "Chris Foss":" by Chris Foss",
-    "Dan Mumford":" by Dan Mumford",
-    "Edvard Munch":"by Edvard Munch",
-    "Esao Andrews":" by Esao Andrews",
-    "Gediminas Pranckevicius":" by Gediminas Pranckevicius",
-    "Greg Rutkowski":" by Greg Rutkowski",
-    "Gustave Doré":" by Gustave Doré",
-    "H.R. Giger":" by H.R. Giger",
-    "H.P. Lovecraft":" by H.P. Lovecraft",
-    "Jackson Pollock":" by Jackson Pollock",
-    "James Jean":" by James Jean",
-    "Jim Burns":" by Jim Burns",
-    "Lisa Frank":" by Lisa Frank",
-    "M.C. Escher":" by M.C. Escher",
-    "Marc Simonetti":" by Marc Simonetti",
-    "Peter Mohrbacher":" by Peter Mohrbacher",
-    "Salvador Dali":"by Salvador Dali",
-    "Ted Nasmith":" by Ted Nasmith",
-    "Thomas Kinkade":" by Thomas Kinkade",
-    "Victo Ngai":" by Victo Ngai",
-    "Vincent DiFate":" by Vincent DiFate",
-    "Wes Anderson":" by Vincent DiFate"
+    "Adi Granov":" by artist Adi Granow",
+    "Akihido Yoshida":" by artist Akihido Yoshida",
+    "Alex Grey":" by artist Alex Grey",
+    "Alex Ross":" by artist Alex Ross",
+    "Alexander Jansson":" by artist Alexander Jansson",
+    "Alphonse Mucha":" by artist Alphonse Mucha",
+    "Ansel Adams":" by artist Ansel Adams",
+    "Artgerm":" by artist Artgerm",
+    "Banksy":" by artist Banksy",
+    "Beeple":" by artist Beeple",
+    "Bob Eggleton":" by artist Bob Eggleton",
+    "Boris Vallejo":" by artist Boris Vallejo",
+    "Caspar David Friedrich":" by artist Caspar David Friedrich",
+    "Chris Foss":" by artist Chris Foss",
+    "Dan Mumford":" by artist Dan Mumford",
+    "Donato Giancola":" by artist Donato Giancola",
+    "Edvard Munch":" by artist Edvard Munch",
+    "Esao Andrews":" by artist Esao Andrews",
+    "Gediminas Pranckevicius":" by artist Gediminas Pranckevicius",
+    "Gil Elvgren":" by artist Gil Elvgren",
+    "Greg Manchess":" by artist Greg Manchess",
+    "Greg Rutkowski":" by artist Greg Rutkowski",
+    "Gustave Doré":" by artist Gustave Doré",
+    "H.P. Lovecraft":" by artist H.P. Lovecraft",
+    "H.R. Giger":" by artist H.R. Giger",
+    "Huang Guangjian":" by artist Huang Guangjian",
+    "Ilya Kuvshinov":" by artist Ilya Kuvshinov",
+    "Irak Nadar":" by artist Irak Nadar",
+    "Jack Kirby":" by artist Jack Kirby",
+    "Jackson Pollock":" by artist Jackson Pollock",
+    "James Gilleard":" by artist James Gilleard",
+    "James Jean":" by artist James Jean",
+    "Jason Chan":" by artist Jason Chan",
+    "Jim Burns":" by artist Jim Burns",
+    "Jim Phillips":" by artist Jim Phillips",
+    "Joseph Leyendecker":" by artist Joseph Leyendecker",
+    "Junji Ito":" by artist Junji Ito",
+    "Lisa Frank":" by artist Lisa Frank",
+    "Marc Simonetti":" by artist Marc Simonetti",
+    "Makoto Shinkai":" by artist Makoto Shinkai",
+    "M.C. Escher":" by artist M.C. Escher",
+    "Peter Mohrbacher":" by artist Peter Mohrbacher",
+    "Phil Noto":" by artist Phil Noto",
+    "ROSSDRAWS":" by artist ROSSDRAWS",
+    "Ruan Jia":" by artist Ruan Jia",
+    "Sachin Teng":" by artist Sachin Teng",
+    "Salvador Dali":" by artist Salvador Dali",
+    "Shane Turner":" by artist Shane Turner",
+    "Steve Ditko":" by artist Steve Ditko",
+    "Ted Nasmith":" by artist Ted Nasmith",
+    "Thomas Kinkade":" by artist Thomas Kinkade",
+    "Tom Bagshaw":" by artist Tom Bagshaw",
+    "Tomasz Alen":" by artist Tomasz Alen",
+    "Victo Ngai":" by artist Victo Ngai",
+    "Vincent DiFate":" by artist Vincent DiFate",
+    "WLOP":" by artist WLOP",
+    "Yoshitaka Amano":" by artist Yoshitaka Amano"
 }
 
 ResultStyle = {
@@ -183,35 +233,35 @@ ImageView = {
 FocusOn = {
     "No focus":"", 
 
-    "Portraits":", portrait, two arms, two legs, 5 fingers per hand, correct proportions",
+    "Portraits":", portrait, two arms, two legs, 5 fingers per hand, perfect human hands, correct proportions",
 
-    "Feminine+Attractive":", ((Feminine)), (effeminate), attractive, pretty, handsome, hypnotic, beautiful, elegant, sensual, two arms, two legs, 5 fingers per hand, ideal proportions, correct proportions",
+    "Feminine+Attractive":", ((Feminine)), (effeminate), attractive, pretty, handsome, hypnotic, beautiful, elegant, sensual, two arms, two legs, 5 fingers per hand, perfect human hands, ideal proportions, correct proportions",
 
-    "Masculine+Attractive":", ((Masculine)), (manly), attractive, pretty, handsome, hypnotic, rugged, buff, muscular, strong, two arms, two legs, 5 fingers per hand, ideal proportions, correct proportions",
+    "Masculine+Attractive":", ((Masculine)), (manly), attractive, pretty, handsome, hypnotic, rugged, buff, muscular, strong, two arms, two legs, 5 fingers per hand, perfect human hands, ideal proportions, correct proportions",
 
-    "WaiFusion":", computer art, anime aesthetic, (((anime))), an ultrafine detailed painting, Artstation contest winner, trending on Artstation, deviantart contest winner, hd",
+    "WaiFusion":", computer art, anime aesthetic, ((anime)), ((Feminine)), (effeminate), attractive, pretty, handsome, hypnotic, beautiful, elegant, sensual, two arms, two legs, 5 fingers per hand, perfect human hands, ideal proportions, correct proportions, ultrafine, detailed, ArtStation contest winner, trending on ArtStation, DeviantArt contest winner, HD",
 
-    "Horrible Monsters":", monster, ugly, surgery, evisceration, morbid, cut, open, rotten, mutilated, deformed, disfigured, malformed, missing limbs, extra limbs, bloody, slimy, goo, Richard Estes, Audrey Flack, Ralph Goings, Robert Bechtle, Tomasz Alen Kopera, H.R.Giger, Joel Boucquemont, artstation, thematic background",
+    "Horrible Monsters":", monster, ugly, surgery, evisceration, morbid, cut, open, rotten, mutilated, deformed, disfigured, malformed, missing limbs, extra limbs, bloody, slimy, goo, Richard Estes, Audrey Flack, Ralph Goings, Robert Bechtle, Tomasz Alen Kopera, H.R.Giger, Joel Boucquemont, ArtStation, DeviantArt contest winner, thematic background",
 
-    "Robots":", (((robot))), ((cyborg)), machine, futuristic, concept art by senior character artist, featured on zbrush central, trending on polycount, trending on Artstation, cgsociety, hard surface modeling",
+    "Robots":", (((robot))), ((cyborg)), machine, futuristic, concept art by senior character artist, featured on zbrush central, trending on polycount, trending on ArtStation, CGSociety, hard surface modeling",
     
-    "Retrofuturism":", ((retrofuturism)), (science fiction), dystopian art, future tech, by Clarence Holbrook Carter, by Ed Emshwiller, cgsociety, Artstation contest winner, trending on Artstation, deviantart contest winner, Fallout",
+    "Retrofuturism":", ((retrofuturism)), (science fiction), dystopian art, ultrafine, detailed, future tech, by Clarence Holbrook Carter, by Ed Emshwiller, CGSociety, ArtStation contest winner, trending on ArtStation, DeviantArt contest winner, Fallout",
 
     "Propaganda":", propaganda poster, soviet poster, sovietwave",
 
-    "Landscapes":", naturalism, land art, regionalism, shutterstock contest winner, trending on unsplash, featured on flickr"
+    "Landscapes":", naturalism, land art, regionalism, shutterstock contest winner, trending on unsplash, featured on Flickr"
 }
 
 FocusOnNegatives = {
     "No focus":"", 
 
-    "Portraits":", (((ugly))), (((disproportionate limbs))), ((corrupt palms)), incorrect anatomy, extra limbs, missing limbs, fused fingers, fused palms, coalesced fingers, broken fingers, broken fingernails, warped pupils, distorted face, fused bodyparts", 
+    "Portraits":", (((ugly))), (((disproportionate limbs))), ((corrupt palms)), incorrect anatomy, missing arms, extra legs, missing legs, fused fingers, fused palms, coalesced fingers, broken fingers, broken fingernails, warped pupils, distorted face, fused bodyparts", 
 
-    "Feminine+Attractive":", (((ugly))), (((disproportionate limbs))), ((corrupt palms)), incorrect anatomy, extra limbs, missing limbs, fused fingers, coalesced fingers, broken fingers, broken fingernails, fused palms, warped pupils, distorted face, fused bodyparts",
+    "Feminine+Attractive":", (((ugly))), (((disproportionate limbs))), ((corrupt palms)), incorrect anatomy, extra arms, missing arms, extra legs, missing legs, fused fingers, coalesced fingers, broken fingers, broken fingernails, fused palms, warped pupils, distorted face, fused bodyparts",
 
-    "Masculine+Attractive":", (((ugly))), (((disproportionate limbs))), ((corrupt palms)), incorrect anatomy, extra limbs, missing limbs, fused fingers, coalesced fingers, broken fingers, broken fingernails, fused palms, warped pupils, distorted face, fused bodyparts",
+    "Masculine+Attractive":", (((ugly))), (((disproportionate limbs))), ((corrupt palms)), incorrect anatomy, missing arms, extra legs, missing legs, fused fingers, coalesced fingers, broken fingers, broken fingernails, fused palms, warped pupils, distorted face, fused bodyparts",
 
-    "WaiFusion":", (((ugly))), (((disproportionate limbs))), ((corrupt palms)), incorrect anatomy, extra limbs, missing limbs, fused fingers, coalesced fingers, broken fingers, broken fingernails, fused palms, warped pupils, distorted face, fused bodyparts",
+    "WaiFusion":", (((ugly))), (((disproportionate limbs))), ((corrupt palms)), incorrect anatomy, missing arms, extra legs, missing legs, fused fingers, coalesced fingers, broken fingers, broken fingernails, fused palms, warped pupils, distorted face, fused bodyparts",
 
     "Horrible Monsters":", (attractive), pretty, smooth,cartoon, pixar, human",
 
@@ -225,19 +275,21 @@ FocusOnNegatives = {
 }
 
 # At some point in time it looked like adding a bunch of these negative prompts helps, but now I am not so sure...
-AlwaysBad = ", (((cropped))), (((watermark))), ((error)), low quality, worst quality"
+AlwaysBad = ",((watermark)), (cropped), text, label, three views, two views, painting on wall, low quality, worst quality"
 #AlwaysBad = ", (((cropped))), (((watermark))), ((logo)), ((barcode)), ((UI)), ((signature)), ((text)), ((label)), ((error)), ((title)), Incorrect proportions, stickers, markings, speech bubbles, lines, cropped, low quality, worst quality, artifacts"
 
 class Script(scripts.Script):
-
     def title(self):
         return "StylePile"
 
     def ui(self, is_img2img):
-        with gr.Group() as TabContainer:
+        with gr.Group(): # as TabContainer:
             with gr.Tab("StylePile"):
                 with gr.Row():
+                    poBatchPrompt = gr.Textbox(show_label=False,placeholder="Enter multiple lines here to loop prompts, leave empty to use above prompt",lines=1)
+                with gr.Row():
                     poResultType = gr.Dropdown(list(ResultType.keys()), label="Image type", value="Not set")
+                    poResultMood = gr.Dropdown(list(ResultMood.keys()), label="Mood", value="Not set")
                     poResultColors = gr.Dropdown(list(ResultColors.keys()), label="Colors", value="Not set")
                     poImageView = gr.Dropdown(list(ImageView.keys()), label="View", value="Not set")
                     poFocusOn = gr.Dropdown(list(FocusOn.keys()),label = "Focus on", value="No focus")
@@ -264,26 +316,91 @@ class Script(scripts.Script):
 
                 Moving on, adding a **Visual style** will affect how that drawing looks. Either it will be more realistic or artistic or look like a comic book etc. In general, this is a really strong element for getting the look you want. Beyond that, you can select an **Artist** and that will have an influence on the general look of the result. Examples of both these selections can be seen on respective tabs to the right of this one. 
                 You can, and should, freely mix and match these settings to get different results. Classic painting styles affected or affecting 3D look quite interesting. If it feels like the style is too weak, raise CFG scale to 15, 20 or more.
-                ### Tips for better results
-                Parenthesis can be added to make parts of the prompt stronger. So (((cute))) kitten will make it extra cute (try it out). This is also important if a style is affecting your original prompt too much. Make that prompt stronger by adding parenthesis around it, like this: ((promt)).                
-                Prompts can be split like [A|B] to sequentially use terms one after another on each step. [cat|dog] will produce a hybrid catdog.
-                And using [A:B:0.4] will switch to other terms after the first one has been active for a certain percentage of steps. [cat:dog:0.4] will build a cat 40% of the time and then start turning it into a dog. This needs more steps to work properly.
-                ### Conclusion
-                I made this because manually changing keywords, looking up possible styles, etc was a pain. It is meant as a fun tool to explore possibilities and make learning Stable Diffusion easier. If you have some ideas or, better yet, would like to contribute in some way just visit https://github.com/some9000/StylePile 
+                
+                In addition you can use the Batch prompt field to have multiple lines of prompts with selected style elements processed in sequence. Try it out, it's great. The top prompt will be ignored if this is the case.
+                ### Tips and tricks
+                If you add your own artist, make sure to have "by artist" before their name. Depending on their popularity (or lack thereof) this appears to have a very tangible influence on the result.
+                Parenthesis can be added to make parts of the prompt stronger. So **(((cute))) kitten** will make it extra cute (try it out). This is also important if a style is affecting your original prompt too much. Make that prompt stronger by adding parenthesis around it, like this: **((promt))**. A strength modifier value can also be used, like this **(prompt:1.1)**. To save some typing you can select the line you want to make stronger and use **Ctrl+Shift+Arrow keys up** or **down** to add these parenthesis and change the value.
+
+                Prompts can be split like **[A|B]** to sequentially use terms one after another on each step. **[cat|dog]** will produce a hybrid catdog.
+                
+                Using **[A:B:0.4]** will switch to other terms after the first one has been active for a certain percentage of steps. **[cat:dog:0.4]** will build a cat 40% of the time and then start turning it into a dog. This needs more steps to work properly.
+                ### In conclusion
+                I made this because manually changing keywords, looking up possible styles, etc was a pain. It is meant as a fun tool to explore possibilities and make learning Stable Diffusion easier. If you have some ideas or, better yet, would like to contribute in some way, just visit https://github.com/some9000/StylePile
                 """)
                 
-        return [poResultType, poResultStyle, poResultColors, poImageView, poFocusOn, poArtist, poHelpText, poVisualStyleHint, poArtistHint, TabContainer]
+                poBatchPrompt.change(lambda tb: gr.update(lines=3) if ("\n" in tb) else gr.update(lines=2), inputs=[poBatchPrompt], outputs=[poBatchPrompt])
 
-    def run(self, p, poResultType, poResultStyle, poResultColors, poImageView, poFocusOn, poArtist, poHelpText, poVisualStyleHint, poArtistHint, TabContainer):
-        # Combine all our parameters with user's prompt
+        return [poBatchPrompt, poResultType, poResultStyle, poResultMood, poResultColors, poImageView, poFocusOn, poArtist, poHelpText, poVisualStyleHint, poArtistHint] #, TabContainer]
+
+    def run(self, p, poBatchPrompt: str, poResultType, poResultStyle, poResultMood, poResultColors, poImageView, poFocusOn, poArtist, poHelpText, poVisualStyleHint, poArtistHint): #, TabContainer):
         
-        p.prompt = ResultBefore[poResultType] + p.prompt + Artists[poArtist] + ResultType[poResultType] + ResultStyle[poResultStyle] + ResultColors[poResultColors] + ImageView[poImageView] + FocusOn[poFocusOn]
+        # Is the multiline empty?
+        if not poBatchPrompt:
+            # Combine all our parameters with user's prompt
+            p.prompt = ResultBefore[poResultType] + ResultMood[poResultMood] + p.prompt + Artists[poArtist] + ResultType[poResultType] + ResultStyle[poResultStyle] + ResultColors[poResultColors] + ImageView[poImageView] + FocusOn[poFocusOn]
 
-        p.negative_prompt += ResultTypeNegatives[poResultType] + FocusOnNegatives[poFocusOn] + AlwaysBad
+            p.negative_prompt += ResultTypeNegatives[poResultType] + FocusOnNegatives[poFocusOn] + AlwaysBad
 
-        # Add information in command prompt window
-        print(f"\nStylePile helping you make great art with:\nPositives:{p.prompt}\nNegatives: {p.negative_prompt}")
-        print(f"Total elements in prompt: {1+p.prompt.count(',')+p.negative_prompt.count(',')}\n")
+            # Add information in command prompt window
+            print(f"\nStylePile helping you make great art with:\nPositives: {p.prompt}\nNegatives: {p.negative_prompt}")
+            print(f"Total elements in prompt: {p.prompt.count(',')+p.negative_prompt.count(',')}\n")
 
-        proc = process_images(p)
-        return proc
+            # Process the image
+            proc = process_images(p)
+            return proc
+        # Multiline is filled. Let's try to split the lines and process in sequence
+        else:
+            lines = [x.strip() for x in poBatchPrompt.splitlines()]
+            lines = [x for x in lines if len(x) > 0]
+
+            p.do_not_save_grid = True
+
+            job_count = 0
+            jobs = []
+
+            for line in lines:
+                if "--" in line:
+                    try:
+                        args = cmdargs(line)
+                    except Exception:
+                        print(f"Error parsing line [line] as commandline:", file=sys.stderr)
+                        print(traceback.format_exc(), file=sys.stderr)
+                        args = {"prompt": line}
+                else:
+                    args = {"prompt": line}
+
+                n_iter = args.get("n_iter", 1)
+                if n_iter != 1:
+                    job_count += n_iter
+                else:
+                    job_count += 1
+
+                jobs.append(args)
+
+            state.job_count = job_count
+            images = []
+
+            # Boasting ;)
+            print(f"\nStylePile helping you make great art going through {len(lines)} lines in {job_count} jobs:")
+
+            for n, args in enumerate(jobs):
+                state.job = f"{state.job_no + 1} out of {state.job_count}"
+
+                copy_p = copy.copy(p)
+
+                for k, v in args.items():
+                    setattr(copy_p, k, v)
+
+                copy_p.prompt = ResultBefore[poResultType] + ResultMood[poResultMood] + copy_p.prompt + Artists[poArtist] + ResultType[poResultType] + ResultStyle[poResultStyle] + ResultColors[poResultColors] + ImageView[poImageView] + FocusOn[poFocusOn]
+
+                copy_p.negative_prompt += ResultTypeNegatives[poResultType] + FocusOnNegatives[poFocusOn] + AlwaysBad
+
+                # Add information in command prompt window
+                print(f"\nPositives: {copy_p.prompt}\nNegatives: {copy_p.negative_prompt}")
+                # print(f"Total elements in prompt: {copy_p.prompt.count(',')+copy_p.negative_prompt.count(',')}\n")
+
+                proc = process_images(copy_p)
+                images += proc.images
+
+            return Processed(p, images, p.seed, "")
