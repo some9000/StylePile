@@ -16,11 +16,18 @@ import copy
 import modules.scripts as scripts
 import gradio as gr
 
+import os
+from os.path import isfile, join
+from os import listdir
+
 from os import path
 from modules.paths import script_path
 from modules.shared import opts, cmd_opts, state
 
 from modules.processing import process_images, Processed
+
+file_dir = os.path.dirname(os.path.realpath("__file__"))
+ResourceDir = os.path.join(file_dir, f"scripts/StylePile/")
 
 ResultBefore = {
     "Not set":"", 
@@ -29,17 +36,17 @@ ResultBefore = {
     "3D Rendering":"3D rendering of ", 
     "Painting":"Painting of ", 
     "Drawing":"Drawing of ", 
-    "Vector art":"Vector art of "
+    "Illustration":"Illustration of "
 }
 
 ResultType = {
     "Not set":"", 
-    "Photography":", 8K, Sharp, Realistic, Professional photograph, Masterpiece", 
+    "Photography":", 8K, Sharp, Photo-realism, Professional photograph, Masterpiece", 
     "Digital art":", featured on CGSociety, featured on ArtStation", 
     "3D Rendering":", art by senior artist, featured on CGSociety, featured on ArtStation, Maya 3D, ZBrush Central", 
     "Painting":"", 
     "Drawing":"", 
-    "Vector art":", Unsplash, Behance"
+    "Illustration":" Illustration, Unsplash, Behance, icons8"
 }
 
 ResultTypeNegatives = {
@@ -48,8 +55,8 @@ ResultTypeNegatives = {
     "Digital art":", 3D rendering, Screenshot, Software, UI", 
     "3D Rendering":", 2D art, Screenshot, Software, UI, computer screen, multiple poses, different poses", 
     "Painting":", ((Photography)), frame", 
-    "Drawing":", Photography, Artifacts, Table, Paper, Pencils, Wall", 
-    "Vector art":", ((Watermark)), ((Text)), Detailed, Gradients, Disproportionate, Noise"
+    "Drawing":", Photography, Artifacts, Table, Paper, Pencils, Pages, Wall", 
+    "Illustration":", Photography, Artifacts, Table, Paper, Pencils, Pages"
 }
 
 ResultMood = {
@@ -72,8 +79,8 @@ ResultMood = {
 
 Artists= {
     "Not set":"",
-    "Adi Granov":" by artist Adi Granow",
-    "Akihido Yoshida":" by artist Akihido Yoshida",
+    "Adi Granov":" by artist Adi Granov",
+    "Akihiko Yoshida":" by artist Akihiko Yoshida",
     "Alex Grey":" by artist Alex Grey",
     "Alex Ross":" by artist Alex Ross",
     "Alexander Jansson":" by artist Alexander Jansson",
@@ -128,6 +135,7 @@ Artists= {
     "Victo Ngai":" by artist Victo Ngai",
     "Vincent DiFate":" by artist Vincent DiFate",
     "WLOP":" by artist WLOP",
+    "Yoji Shinkawa":" by artist Yoji Shinkawa",
     "Yoshitaka Amano":" by artist Yoshitaka Amano"
 }
 
@@ -233,13 +241,11 @@ ImageView = {
 FocusOn = {
     "No focus":"", 
 
-    "Portraits":", portrait, two arms, two legs, 5 fingers per hand, perfect human hands, correct proportions",
+    "Portraits":", (close portrait:1.6)",
+    "Feminine portrait":", (close portrait:1.6), (Feminine:1.6), (beautiful:1.7), (attractive:1.6), handsome, calendar pose, perfectly detailed eyes",
+    "Masculine portrait":", (close portrait:1.6), (Masculine:1.4), attractive, handsome, calendar pose, perfectly detailed eyes",
 
-    "Feminine+Attractive":", ((Feminine)), (effeminate), attractive, pretty, handsome, hypnotic, beautiful, elegant, sensual, two arms, two legs, 5 fingers per hand, perfect human hands, ideal proportions, correct proportions",
-
-    "Masculine+Attractive":", ((Masculine)), (manly), attractive, pretty, handsome, hypnotic, rugged, buff, muscular, strong, two arms, two legs, 5 fingers per hand, perfect human hands, ideal proportions, correct proportions",
-
-    "WaiFusion":", computer art, anime aesthetic, ((anime)), ((Feminine)), (effeminate), attractive, pretty, handsome, hypnotic, beautiful, elegant, sensual, two arms, two legs, 5 fingers per hand, perfect human hands, ideal proportions, correct proportions, ultrafine, detailed, ArtStation contest winner, trending on ArtStation, DeviantArt contest winner, HD",
+    "WaiFusion":", close portrait, (manga:1.3), beautiful, attractive, handsome, trending on ArtStation, DeviantArt contest winner, CGSociety, ultrafine, detailed",
 
     "Horrible Monsters":", monster, ugly, surgery, evisceration, morbid, cut, open, rotten, mutilated, deformed, disfigured, malformed, missing limbs, extra limbs, bloody, slimy, goo, Richard Estes, Audrey Flack, Ralph Goings, Robert Bechtle, Tomasz Alen Kopera, H.R.Giger, Joel Boucquemont, ArtStation, DeviantArt contest winner, thematic background",
 
@@ -255,13 +261,11 @@ FocusOn = {
 FocusOnNegatives = {
     "No focus":"", 
 
-    "Portraits":", (((ugly))), (((disproportionate limbs))), ((corrupt palms)), incorrect anatomy, missing arms, extra legs, missing legs, fused fingers, fused palms, coalesced fingers, broken fingers, broken fingernails, warped pupils, distorted face, fused bodyparts", 
+    "Portraits":", distorted pupils, distorted eyes, Unnatural anatomy, strange anatomy, things on face", 
+    "Feminine portrait":", distorted pupils, distorted eyes, Unnatural anatomy, strange anatomy, things on face",
+    "Masculine portrait":", distorted pupils, distorted eyes, Unnatural anatomy, strange anatomy, things on face",
 
-    "Feminine+Attractive":", (((ugly))), (((disproportionate limbs))), ((corrupt palms)), incorrect anatomy, extra arms, missing arms, extra legs, missing legs, fused fingers, coalesced fingers, broken fingers, broken fingernails, fused palms, warped pupils, distorted face, fused bodyparts",
-
-    "Masculine+Attractive":", (((ugly))), (((disproportionate limbs))), ((corrupt palms)), incorrect anatomy, missing arms, extra legs, missing legs, fused fingers, coalesced fingers, broken fingers, broken fingernails, fused palms, warped pupils, distorted face, fused bodyparts",
-
-    "WaiFusion":", (((ugly))), (((disproportionate limbs))), ((corrupt palms)), incorrect anatomy, missing arms, extra legs, missing legs, fused fingers, coalesced fingers, broken fingers, broken fingernails, fused palms, warped pupils, distorted face, fused bodyparts",
+    "WaiFusion":" things on face, Unnatural anatomy, strange anatomy",
 
     "Horrible Monsters":", (attractive), pretty, smooth,cartoon, pixar, human",
 
@@ -274,8 +278,16 @@ FocusOnNegatives = {
     "Landscapes":"((hdr)), ((terragen)), ((rendering)), (high contrast)"
 }
 
+AddFromList = {
+    "Ignore":"Ignore",
+    "In front of main prompt":"In front of main prompt",
+    "Use as main prompt":"Use as main prompt",
+    "After main prompt":"After main prompt",
+    "Replace [X]":"Replace [X]"
+}
+
 # At some point in time it looked like adding a bunch of these negative prompts helps, but now I am not so sure...
-AlwaysBad = ",((watermark)), (cropped), text, label, three views, two views, painting on wall, low quality, worst quality"
+AlwaysBad = ",((watermark)), (cropped), text, label, multiple views, low quality, worst quality"
 #AlwaysBad = ", (((cropped))), (((watermark))), ((logo)), ((barcode)), ((UI)), ((signature)), ((text)), ((label)), ((error)), ((title)), Incorrect proportions, stickers, markings, speech bubbles, lines, cropped, low quality, worst quality, artifacts"
 
 class Script(scripts.Script):
@@ -286,7 +298,10 @@ class Script(scripts.Script):
         with gr.Group(): # as TabContainer:
             with gr.Tab("StylePile"):
                 with gr.Row():
-                    poBatchPrompt = gr.Textbox(show_label=False,placeholder="Enter multiple lines here to loop prompts, leave empty to use above prompt",lines=1)
+                    with gr.Column():
+                        poBatchPrompt = gr.Textbox(label="Batch prompts",placeholder="Enter multiple prompts here to add before main prompt. Select what happens to the right.")
+                    with gr.Column():
+                        poAddFromList = gr.Radio(list(AddFromList.keys()),label="Use batch values",value="Ignore")
                 with gr.Row():
                     poResultType = gr.Dropdown(list(ResultType.keys()), label="Image type", value="Not set")
                     poResultMood = gr.Dropdown(list(ResultMood.keys()), label="Mood", value="Not set")
@@ -300,10 +315,10 @@ class Script(scripts.Script):
                         poArtist = gr.Radio(list(Artists.keys()),label="Artist", value="Not set")
 
             with gr.Tab("Visual Style examples") as StyleTab:
-                poVisualStyleHint = gr.Image(show_label=False,interactive=False,value=path.join(script_path, "scripts", "StyleGuide.png"))
+                poVisualStyleHint = gr.Image(show_label=False,interactive=False,value=path.join(ResourceDir,"StyleGuide.png"))
 
             with gr.Tab("Artist examples") as ArtistTab:
-                poArtistHint = gr.Image(show_label=False,interactive=False,value=path.join(script_path, "scripts", "Artists.png"))
+                poArtistHint = gr.Image(show_label=False,interactive=False,value=path.join(ResourceDir, "Artists.png"))
 
             with gr.Tab("Help"):
                 poHelpText = gr.Markdown(
@@ -331,12 +346,12 @@ class Script(scripts.Script):
                 
                 poBatchPrompt.change(lambda tb: gr.update(lines=3) if ("\n" in tb) else gr.update(lines=2), inputs=[poBatchPrompt], outputs=[poBatchPrompt])
 
-        return [poBatchPrompt, poResultType, poResultStyle, poResultMood, poResultColors, poImageView, poFocusOn, poArtist, poHelpText, poVisualStyleHint, poArtistHint] #, TabContainer]
+        return [poBatchPrompt, poResultType, poResultStyle, poResultMood, poResultColors, poImageView, poFocusOn, poArtist, poHelpText, poVisualStyleHint, poArtistHint,poAddFromList] #, TabContainer]
 
-    def run(self, p, poBatchPrompt: str, poResultType, poResultStyle, poResultMood, poResultColors, poImageView, poFocusOn, poArtist, poHelpText, poVisualStyleHint, poArtistHint): #, TabContainer):
+    def run(self, p, poBatchPrompt: str, poResultType, poResultStyle, poResultMood, poResultColors, poImageView, poFocusOn, poArtist, poHelpText, poVisualStyleHint, poArtistHint,poAddFromList): #, TabContainer):
         
         # Is the multiline empty?
-        if not poBatchPrompt:
+        if poAddFromList == "Ignore":
             # Combine all our parameters with user's prompt
             p.prompt = ResultBefore[poResultType] + ResultMood[poResultMood] + p.prompt + Artists[poArtist] + ResultType[poResultType] + ResultStyle[poResultStyle] + ResultColors[poResultColors] + ImageView[poImageView] + FocusOn[poFocusOn]
 
@@ -382,23 +397,34 @@ class Script(scripts.Script):
             images = []
 
             # Boasting ;)
-            print(f"\nStylePile helping you make great art going through {len(lines)} lines in {job_count} jobs:")
+            print(f"\nStylePile helping you make great art going through {len(lines)} lines:")
 
             for n, args in enumerate(jobs):
                 state.job = f"{state.job_no + 1} out of {state.job_count}"
 
+                copy_p = ""
                 copy_p = copy.copy(p)
 
                 for k, v in args.items():
                     setattr(copy_p, k, v)
 
-                copy_p.prompt = ResultBefore[poResultType] + ResultMood[poResultMood] + copy_p.prompt + Artists[poArtist] + ResultType[poResultType] + ResultStyle[poResultStyle] + ResultColors[poResultColors] + ImageView[poImageView] + FocusOn[poFocusOn]
+                if poAddFromList == "In front of main prompt":
+                    copy_p.prompt = ResultBefore[poResultType] + ResultMood[poResultMood] + copy_p.prompt + " " + p.prompt + Artists[poArtist] + ResultType[poResultType] + ResultStyle[poResultStyle] + ResultColors[poResultColors] + ImageView[poImageView] + FocusOn[poFocusOn]
+
+                if poAddFromList == "Use as main prompt":
+                    copy_p.prompt = ResultBefore[poResultType] + ResultMood[poResultMood] + copy_p.prompt + Artists[poArtist] + ResultType[poResultType] + ResultStyle[poResultStyle] + ResultColors[poResultColors] + ImageView[poImageView] + FocusOn[poFocusOn]
+
+                if poAddFromList == "After main prompt":
+                    copy_p.prompt = ResultBefore[poResultType] + ResultMood[poResultMood] + p.prompt + " " + copy_p.prompt + Artists[poArtist] + ResultType[poResultType] + ResultStyle[poResultStyle] + ResultColors[poResultColors] + ImageView[poImageView] + FocusOn[poFocusOn]
+
+                if poAddFromList == "Replace [X]":
+                    TempText = p.prompt.replace("[X]",copy_p.prompt)
+                    copy_p.prompt = ResultBefore[poResultType] + ResultMood[poResultMood] + TempText + Artists[poArtist] + ResultType[poResultType] + ResultStyle[poResultStyle] + ResultColors[poResultColors] + ImageView[poImageView] + FocusOn[poFocusOn]
 
                 copy_p.negative_prompt += ResultTypeNegatives[poResultType] + FocusOnNegatives[poFocusOn] + AlwaysBad
 
                 # Add information in command prompt window
                 print(f"\nPositives: {copy_p.prompt}\nNegatives: {copy_p.negative_prompt}")
-                # print(f"Total elements in prompt: {copy_p.prompt.count(',')+copy_p.negative_prompt.count(',')}\n")
 
                 proc = process_images(copy_p)
                 images += proc.images
