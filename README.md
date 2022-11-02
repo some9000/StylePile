@@ -1,7 +1,7 @@
 ![Logo](https://user-images.githubusercontent.com/17021558/197962979-43290ce2-9a62-49c7-8295-5ad3fcdd1df0.png)
 
 ## Introduction
-**StylePile** is a mix and match system for adding elements to prompts that affect the style of the result. Hence the name. By default, these elements are placed in a specific order and given strength values. Which means the result sort-of evolves. I have generated thousands of images for each main **Image type** and tweaked the keywords to attempt giving expected results most of the time. Here are some examples on what you can get with a couple of clicks:
+**StylePile** is a script for https://github.com/AUTOMATIC1111/stable-diffusion-webui to mix and match elements to prompts that affect the style of the result. Hence the name. By default, these elements are placed in a specific order and given strength values. Which means the result sort-of evolves. I have generated thousands of images for each main **Image type** and tweaked the keywords to attempt giving expected results most of the time. Here are some examples on what you can get with a couple of clicks:
 
 ![F](https://user-images.githubusercontent.com/17021558/199468444-99e78027-1889-4bec-b97b-25f801e33c0a.jpg)
 ![A](https://user-images.githubusercontent.com/17021558/199458710-efc7520d-70a1-475b-8ca0-dbdc3182b865.jpg)
