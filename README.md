@@ -45,7 +45,7 @@ Additionally the command line will also share more information than by default s
 I made this because manually changing keywords, looking up possible styles, etc was a pain. It is meant as a fun tool to explore possibilities and make learning Stable Diffusion easier. If you have some ideas or, better yet, would like to contribute[^2] in some way do get in touch.
 
 ## Installation
-Click the green **Code** button at the top of the page, select the **Download ZIP** option. When done extract everything from there and drop it into your **stable-diffusion-webui/scripts** folder. Upon next launch it should be available at the bottom **Script** dropdown. Loading the scripts may take a little while, so it won't appear right away.
+Click the green **Code** button at the top of the page, select the **Download ZIP** option. When done extract everything from there and drop it into your **stable-diffusion-webui/scripts** folder. Most important of all you should have the StylePile.py file and the StylePile folder with the example images. Upon next launch the script should be available in the **Script** dropdown at the bottom of the page. Loading the scripts may take a little while, so it won't appear right away. Currently gradio has a bit of a bug that keeps a part of the script on screen even if it isn't active. I'm looking into a way to get around it.
 
 
 
