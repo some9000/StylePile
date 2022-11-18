@@ -186,44 +186,30 @@ TipsAndTricks = [
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
 
-FocusOn = {
-    "No focus": "",
-
-    "Portraits": ",(close portrait:1.6),thematic background",
-    "Feminine portrait": ",(close portrait:1.6),(Feminine:1.6),(beautiful:1.7),(attractive:1.6),handsome,calendar pose,perfectly detailed eyes,studio lighting,thematic background",
-    "Masculine portrait": ",(close portrait:1.6),(Masculine:1.4),attractive,handsome,calendar pose,perfectly detailed eyes,studio lighting,thematic background",
-
+Preset = {
+    "None": "",
+    "Portraits": ",(close portrait:1.3),thematic background",
+    "Feminine portrait": ",(close portrait:1.3),(Feminine:1.4),(beautiful:1.4),(attractive:1.3),handsome,calendar pose,perfectly detailed eyes,studio lighting,thematic background",
+    "Masculine portrait": ",(close portrait:1.3),(Masculine:1.4),attractive,handsome,calendar pose,perfectly detailed eyes,studio lighting,thematic background",
     "WaiFusion": ",close portrait,(manga:1.3),beautiful,attractive,handsome,trending on ArtStation,DeviantArt contest winner,CGSociety,ultrafine,detailed,studio lighting",
-
     "Horrible Monsters": ",monster,ugly,surgery,evisceration,morbid,cut,open,rotten,mutilated,deformed,disfigured,malformed,missing limbs,extra limbs,bloody,slimy,goo,Richard Estes,Audrey Flack,Ralph Goings,Robert Bechtle,Tomasz Alen Kopera,H.R.Giger,Joel Boucquemont,ArtStation,DeviantArt contest winner,thematic background",
-
     "Robots": ",robot,((cyborg)),machine,futuristic,concept Art by senior character Artist,featured on zbrush central,trending on polycount,trending on ArtStation,CGSociety,hard surface modeling",
-
     "Retrofuturism": ",((retrofuturism)),(science fiction),dystopian Art,ultrafine,detailed,future tech,by Clarence Holbrook CArter,by Ed Emshwiller,CGSociety,ArtStation contest winner,trending on ArtStation,DeviantArt contest winner,Fallout",
-
     "Propaganda": ",propaganda poster,soviet poster,sovietwave",
-
     "Landscapes": ",naturalism,land Art,regionalism,shutterstock contest winner,trending on unsplash,featured on Flickr"
 }
 
-FocusOnNegatives = {
-    "No focus": "",
-
-    "Portraits": ",distorted pupils,distorted eyes,Unnatural anatomy,strange anatomy,things on face",
-    "Feminine portrait": ",distorted pupils,distorted eyes,Unnatural anatomy,strange anatomy,things on face",
-    "Masculine portrait": ",distorted pupils,distorted eyes,Unnatural anatomy,strange anatomy,things on face",
-
-    "WaiFusion": " things on face,Unnatural anatomy,strange anatomy",
-
+PresetNegatives = {
+    "None": "",
+    "Portraits": ",robot eyes,distorted pupils,distorted eyes,Unnatural anatomy,strange anatomy,things on face",
+    "Feminine portrait": ",robot eyes,distorted pupils,distorted eyes,Unnatural anatomy,strange anatomy,things on face",
+    "Masculine portrait": ",robot eyes,distorted pupils,distorted eyes,Unnatural anatomy,strange anatomy,things on face",
+    "WaiFusion": ",things on face,Unnatural anatomy,strange anatomy",
     "Horrible Monsters": ",(attractive),pretty,smooth,cArtoon,pixar,human",
-
-    "Robots": ",cArtoon",
-
+    "Robots": ",cartoon",
     "Retrofuturism": ",extra limbs,malformed limbs,modern",
-
     "Propaganda": ",extra limbs,malformed limbs,modern",
-
-    "Landscapes": "((hdr)),((terragen)),((rendering)),(high contrast)"
+    "Landscapes": ",((hdr)),((terragen)),((rendering)),(high contrast)"
 }
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
@@ -253,7 +239,7 @@ class Script(scripts.Script):
                     ddResultDirection = gr.Dropdown(
                         ResultDirection, label="Direction", value="Not set")
                     slResultDirectionStrength = gr.Slider(
-                        0, 2, value=1.3, step=0.05, show_label=False)
+                        0, 2, value=1.0, step=0.05, show_label=False)
                 with gr.Column():
                     ddResultMood = gr.Dropdown(
                         ResultMood, label="Mood", value="Not set")
@@ -262,15 +248,12 @@ class Script(scripts.Script):
                 with gr.Column():
                     ddResultColors = gr.Dropdown(
                         list(ResultColors.keys()), label="Colors", value="Not set")
-                with gr.Column():
+                with gr.Row():
                     cbChangeCount = gr.Checkbox(
                         value=True, label="Batch count = Sequence count")
-                with gr.Column():
                     cbShowTips = gr.Checkbox(
                         value=False, label="Show tips when generating")
-
-            # with gr.Row():
-                #ddFocusOn = gr.Dropdown(list(FocusOn.keys()),label = "Focus on (unfinished)",value="No focus")
+                    ddPreset = gr.Dropdown(list(Preset.keys()), label="Style influence", value="None")
 
             with gr.Row():
                 strSequentialPrompt = gr.Textbox(
@@ -323,7 +306,7 @@ class Script(scripts.Script):
             gr.Markdown(
                 """
             ### Example images, adding your own
-            Example images stored in the script folders are more than just images. Their filenames are used to create the Artist, Direction and Mood dropdown selections. This gives you the ability to Add/Remove these parameters as you wish. Just place an image in the folder and name it as the option you want to see in the dropdown. Delete a file to remove that option.
+            Example images stored in the script folders are more than just images. Their filenames are used to create the **Direction**, **Mood**, **Artist** and Art **movement** dropdown selections. This gives you the ability to Add/Remove parameters as you wish. Just place an image in the folder and name it as the option you want to see in the dropdown. Delete image file to remove that option.
             
             In case you would like to suggest an artist be added to the roster, I would recommend making 8+ sample images first. To see if SD actually "knows" that artist and their style appears unique enough. The portraits you can see in the info pages were generated with the following settings:
             
@@ -407,7 +390,8 @@ class Script(scripts.Script):
                 selArtistB,
                 sliImageArtistStrengthC,
                 selArtistC,
-                cbShowTips
+                cbShowTips,
+                ddPreset
                 ]
 
     # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
@@ -438,7 +422,8 @@ class Script(scripts.Script):
             selArtistB,
             sliImageArtistStrengthC,
             selArtistC,
-            cbShowTips
+            cbShowTips,
+            ddPreset
             ):
 
         # If it's all empty just exit function.
@@ -459,6 +444,7 @@ class Script(scripts.Script):
         SubTempText = ""
 
         images = []
+        infotexts = []
 
         # Overtake amounts of things to generate so we can go through different variables
         JobCount = p.n_iter
@@ -651,7 +637,7 @@ class Script(scripts.Script):
                 # Our main prompt composed of all the selected elements
                 MainPositive = TypeFront + FinalResultDirection + FinalResultMood + TempText + \
                     AllArtists + TypePositives + AllMovements + \
-                    FinalResultColors  # + FocusOn[ddFocusOn]
+                    FinalResultColors + Preset[ddPreset]
 
                 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
 
@@ -679,7 +665,7 @@ class Script(scripts.Script):
 
                     # Clean up negative prompt
                     TempText = copy_p.negative_prompt + TypeNegatives + \
-                        AlwaysBad  # + FocusOnNegatives[ddFocusOn] # + AlwaysBad
+                        AlwaysBad + PresetNegatives[ddPreset]
 
                     TempText = " ".join(TempText.split())
                     TempText = TempText.replace(",,", ",")
@@ -696,6 +682,7 @@ class Script(scripts.Script):
                     print(f"\n\n[Prompt {x+1}/{JobCount}][Iteration {y+1}/{IterCount}][SubPrompt {z}/{SubLineCount} {SubTempText}][Seed {int(copy_p.seed)}] >>> Positives <<< {copy_p.prompt} >>> Negatives <<< {copy_p.negative_prompt}\n")
 
                     proc = process_images(copy_p)
+                    infotexts += proc.infotexts
                     images += proc.images
 
                     SubCurrentChoice += 1
@@ -709,6 +696,7 @@ class Script(scripts.Script):
             print(
                 f"\n\nStylePile processing complete. Here's a random tip:\n{random.choice(TipsAndTricks)}\n")
 
-        # return Processed(p,images,p.seed,p.prompt)
+        #Proper support for infotext for each generated image is broken for now... :(
+        #return Processed(p,images,p.seed,infotexts)
 
         return Processed(p, images, p.seed, "Positives: " + p.prompt + "\nNegatives:" + p.negative_prompt + "\nSeed: " + str(p.seed))
