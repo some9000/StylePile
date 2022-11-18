@@ -141,13 +141,13 @@ ArtMovementImages = list(
 
 ResultColorList = {
     "Not set": "",
-    "Primary Colors": ",((primary Colors))",
+    "Primary Colors": ",((Primary Colors))",
     "Vivid": ",((vivid Colors)),((vibrant)),((colorful))",
     "Pastel Colors": ",((pastel Colors))",
     "Muted Colors": ",((muted Colors))",
     "Grayscale": ",((grayscale))",
     "Black and white": ",((black and white))",
-    "Infrared": ",((infrared))",
+    "Infrared": ",((Infrared))",
     "Technicolor": ",((Technicolor))",
     "Kinemacolor": ",((Kinemacolor))",
     "Kodachrome": ",((Kodachrome))",
@@ -586,7 +586,7 @@ class Script(scripts.Script):
                 # Pick the mood
                 if ddResultMood != "Not set":
                     if ddResultMood == "Random":
-                        FinalResultMood = ",(" + random(ResultMoodList) + \
+                        FinalResultMood = ",(" + random.choice(ResultMoodList) + \
                             ":" + str(slResultMoodStrength) + ") "
                     else:
                         FinalResultMood = ",(" + ddResultMood + \
