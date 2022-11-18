@@ -1,7 +1,6 @@
-![Logo](https://user-images.githubusercontent.com/17021558/197962979-43290ce2-9a62-49c7-8295-5ad3fcdd1df0.png)
+![StylePile](https://user-images.githubusercontent.com/17021558/202690454-cc31a9b9-ba48-484c-89b2-cdfd8bad247c.svg)
 
-## Introduction
-**StylePile**[^1] is a script for https://github.com/AUTOMATIC1111/stable-diffusion-webui to mix and match elements to prompts that affect the style of the result. Hence the name. By default, these elements are placed in a specific order and given strength values. Which means the result sort-of evolves. I have generated thousands of images for each main **Image type** and tweaked the keywords to attempt giving expected results most of the time. Here are some examples on what you can get with a couple of clicks:
+**StylePile**[^1] is a script for https://github.com/AUTOMATIC1111/stable-diffusion-webui for mixing and matching elements to prompts that affect the style of the result. Hence the name. By default, these elements are placed in a specific order and given strength values. Which means the result sort-of evolves. I have generated thousands of images for each main **Image type** and tweaked the keywords to attempt giving expected results most of the time. Here are some examples on what you can get with a couple of clicks:
 
 ![F](https://user-images.githubusercontent.com/17021558/199468444-99e78027-1889-4bec-b97b-25f801e33c0a.jpg)
 ![A](https://user-images.githubusercontent.com/17021558/199458710-efc7520d-70a1-475b-8ca0-dbdc3182b865.jpg)
@@ -10,6 +9,9 @@
 ![D](https://user-images.githubusercontent.com/17021558/199462277-a6c25028-96a4-4508-8577-cd79f9e6afd9.jpg)
 ![E](https://user-images.githubusercontent.com/17021558/199465943-c69ea9c3-61db-4bc5-ae59-2d95b0c5d979.jpg)
 I left the less successful results in on purpose, to show that this isn't some magical tool that overcomes all the difficulties that Stable Diffusion currently has. But it does help you go on that artistic journey way easier. So let's begin.
+
+## Installation
+Click the green **Code** button at the top of the page, select the **Download ZIP** option. When done extract everything from there and drop it into your **stable-diffusion-webui/scripts** folder. Most important of all you should have the StylePile.py file and the StylePile folder with the example images. Upon next launch the script should be available in the **Script** dropdown at the bottom of the page. Select it and we are good to go!
 
 ## Base workflow
 ![2022-11-02 10 55 17 127 0 0 1 c12d9c9abb8e](https://user-images.githubusercontent.com/17021558/199445402-b707560e-f36c-4d71-a146-829e2638fd7b.png)
@@ -44,8 +46,7 @@ Additionally the command line will also share more information than by default s
 ## In conclusion
 I made this because manually changing keywords, looking up possible styles, etc was a pain. It is meant as a fun tool to explore possibilities and make learning Stable Diffusion easier. If you have some ideas or, better yet, would like to contribute[^2] in some way do get in touch.
 
-## Installation
-Click the green **Code** button at the top of the page, select the **Download ZIP** option. When done extract everything from there and drop it into your **stable-diffusion-webui/scripts** folder. Most important of all you should have the StylePile.py file and the StylePile folder with the example images. Upon next launch the script should be available in the **Script** dropdown at the bottom of the page. Loading the scripts may take a little while, so it won't appear right away. Currently gradio has a bit of a bug that keeps a part of the script on screen even if it isn't active. I'm looking into a way to get around it.
+
 
 
 
