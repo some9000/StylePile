@@ -367,7 +367,7 @@ class Script(scripts.Script):
 
     def ui(self,is_img2img,title="StylePile"):
         file_dir = os.path.dirname(os.path.realpath("__file__"))
-        ResourceDir = os.path.join(file_dir,f"scripts/StylePile/")
+        ResourceDir = os.path.join(file_dir,f"extensions/StylePile/StylePile/")
 
         with gr.Column():
             with gr.Row():
