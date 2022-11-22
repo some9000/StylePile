@@ -567,6 +567,6 @@ class Script(scripts.Script):
 
         p.batch_size = JobCount
         p.n_iter = IterCount
-        
-        return Processed(p,images,p.seed,"")
+
         print(f"\nStylePile processing complete. Have a nice day.")
+        return Processed(p,images,p.seed,"")
