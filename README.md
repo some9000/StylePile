@@ -1,8 +1,8 @@
 ![StylePile](https://user-images.githubusercontent.com/17021558/202690454-cc31a9b9-ba48-484c-89b2-cdfd8bad247c.svg)
 
-**Note** This manual is somewhat incomplete at the moment, it does not explain the variable functions, but those should be reasonably self explanatory. Will be finalized later.
+**Note:** This manual is somewhat incomplete at the moment, it does not explain the variable functions, but those should be reasonably self explanatory. Will be finalized later.
 
-**Important** If you had any previous version you need to remove that from the scripts directory to avoid conflicts. Just delete the **.py** file and the **StylePile** folder there.
+**Important:** If you had any previous version you need to remove that from the scripts directory to avoid conflicts. Just delete the **StylePile.py** file and the **StylePile** folder there.
 
 **StylePile**[^1] is an extension for https://github.com/AUTOMATIC1111/stable-diffusion-webui for mixing and matching elements to prompts that affect the style of the result. Hence the name. By default, these elements are placed in a specific order and given strength values. Which means the result sort-of evolves. I have generated thousands of images for each main **Image type** and tweaked the keywords to attempt giving expected results most of the time. Here are some examples on what you can get with a couple of clicks:
 
