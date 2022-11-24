@@ -41,7 +41,6 @@ from modules.shared import cmd_opts, opts, state
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
 
 file_dir = os.path.dirname(os.path.realpath("__file__"))
-
 ResourceDir = os.path.join(file_dir, f"extensions/StylePile/StylePile/")
 
 def FilesInFolder(SourceFolder):
@@ -49,10 +48,6 @@ def FilesInFolder(SourceFolder):
 
 def FilesInFolderFullPath(SourceFolder):
     return [SourceFolder + file for file in os.listdir(SourceFolder)]
-
-def after_component(self, component, **kwargs):
-    if kwargs.get('elem_id', None) == 'txt2img_prompt':
-        self.txt2img_prompt = component
 
 ResultNames = [
     "Photography",
@@ -217,12 +212,22 @@ PresetNegatives = {
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
 
 # At some point in time it looked like adding a bunch of these negative prompts helps,but now I am not so sure...
-# AlwaysBad = ",((watermark)),(text),(overlays),getty images,(cropped),low quality,worst quality"
-AlwaysBad = ",(text),(overlays),signature"
+AlwaysBad = ",((watermark)),(text),(overlay),getty images,(cropped),low quality,worst quality"
 
 
 class Script(scripts.Script):
-    
+    # txt2img_prompt = None
+    # img2img_prompt = None
+
+    # def after_component(self, component, **kwargs):
+    #     if kwargs.get('elem_id') == 'txt2img_prompt':
+    #         self.txt2img_prompt = component
+    #     if kwargs.get('elem_id') == 'img2img_prompt':
+    #         self.img2img_prompt = component
+
+    #def add_test_to_prompt(prompt):
+    #    return prompt + " TEST"
+
     def title(self):
         return "StylePile"
 
@@ -230,9 +235,17 @@ class Script(scripts.Script):
         return True
 
     def ui(self, is_img2img):
-        #test_button = gr.Button('TEST', elem_id="txt2img_test_button")
-        #test_button.click(fn=lambda x: x+" TEST",inputs = [self.txt2img_prompt],outputs = [self.txt2img_prompt])
-                
+        # test_button = gr.Button('TEST', elem_id="txt2img_test_button")
+        # if self.txt2img_prompt is not None:
+        #     test_button.click(fn=lambda x: x+" TEST", 
+        #         inputs  = [self.txt2img_prompt],
+        #         outputs = [self.txt2img_prompt])
+            
+        # if self.img2img_prompt is not None:
+        #     test_button.click(fn=lambda x: x+" TEST", 
+        #         inputs  = [self.img2img_prompt],
+        #         outputs = [self.img2img_prompt])
+
         with gr.Tab("Parameters"):
             with gr.Row():
                 with gr.Column():
@@ -258,7 +271,7 @@ class Script(scripts.Script):
                         value=True, label="Batch count = Sequence count")
                     cbShowTips = gr.Checkbox(
                         value=False, label="Show tips when generating")
-                    ddPreset = gr.Dropdown(list(Preset.keys()), label="Style influence", value="None")
+                    ddPreset = gr.Dropdown(list(Preset.keys()), label="Style influence (incomplete)", value="None")
 
             with gr.Row():
                 strSequentialPrompt = gr.Textbox(
@@ -290,7 +303,7 @@ class Script(scripts.Script):
                     selArtMovementStrengthB = gr.Slider(0, 2, value=1.3, step=0.05, label="Influence")
                     selArtMovementC = gr.Dropdown(ArtMovements, label="Art movement", value="Not set")
                     selArtMovementStrengthC = gr.Slider(0, 2, value=1.3, step=0.05, label="Influence")
-            
+                    
         with gr.Tab("Directions") as StyleTab:
             gr.Gallery(value=ResultDirectionImages, show_label=False).style(
                 grid=(3, 3, 3, 3, 4, 4), container=False)
@@ -306,7 +319,7 @@ class Script(scripts.Script):
         with gr.Tab("Art movements"):
             gr.Gallery(value=ArtMovementImages, show_label=False).style(
                 grid=(3, 3, 3, 3, 4, 4), container=False)
-
+            
         with gr.Tab("Info") as HelpTab:
             gr.Markdown(
                 """
