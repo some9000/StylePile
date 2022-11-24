@@ -1,6 +1,8 @@
 ![StylePile](https://user-images.githubusercontent.com/17021558/202690454-cc31a9b9-ba48-484c-89b2-cdfd8bad247c.svg)
 
-**StylePile**[^1] is a script for https://github.com/AUTOMATIC1111/stable-diffusion-webui for mixing and matching elements to prompts that affect the style of the result. Hence the name. By default, these elements are placed in a specific order and given strength values. Which means the result sort-of evolves. I have generated thousands of images for each main **Image type** and tweaked the keywords to attempt giving expected results most of the time. Here are some examples on what you can get with a couple of clicks:
+**Note** This manual is somewhat incomplete at the moment, it does not explain the variable functions, but those should be reasonably self explanatory. Will be finalized later.
+
+**StylePile**[^1] is an extension for https://github.com/AUTOMATIC1111/stable-diffusion-webui for mixing and matching elements to prompts that affect the style of the result. Hence the name. By default, these elements are placed in a specific order and given strength values. Which means the result sort-of evolves. I have generated thousands of images for each main **Image type** and tweaked the keywords to attempt giving expected results most of the time. Here are some examples on what you can get with a couple of clicks:
 
 ![F](https://user-images.githubusercontent.com/17021558/199468444-99e78027-1889-4bec-b97b-25f801e33c0a.jpg)
 ![A](https://user-images.githubusercontent.com/17021558/199458710-efc7520d-70a1-475b-8ca0-dbdc3182b865.jpg)
@@ -11,11 +13,21 @@
 I left the less successful results in on purpose, to show that this isn't some magical tool that overcomes all the difficulties that Stable Diffusion currently has. But it does help you go on that artistic journey way easier. So let's begin.
 
 ## Installation
-Click the green **Code** button at the top of the page, select the **Download ZIP** option. When done extract everything from there and drop it into your **stable-diffusion-webui/scripts** folder. Most important of all you should have the StylePile.py file and the StylePile folder with the example images. Upon next launch the script should be available in the **Script** dropdown at the bottom of the page. Select it and we are good to go!
+In theory you should be able to use the **Install from URL** feature:
+* Copy the main address (https://github.com/some9000/StylePile) of this repository,
+* In SDUI go to **Extensions tab**,
+* Select **Install from URL** and paste that URL into the **URL for extension's git repository field,
+* Press Install.
+
+If all goes well the necessary directories will be automatically created and all the files downloaded into them. After which the extension should be available under the **Scripts** dropdown in both **txt2img** and **img2img**. If you get error messages or it does not show up even after a full SD restart try this:
+* Click the green **Code** button at the top of the page,
+* Select the **Download ZIP** option,
+* When done extract everything from there and drop it into your **stable-diffusion-webui\extensions\StylePile** folder.
+
+Basically you should have a **scripts** and **StylePile** folder inside that folder. It is ok to have another StylePile folder inside the main one. This is what should show up when it loads (without the cyborg knight, though, you will have to render that on your own):
+![2022-11-24 10 01 18 127 0 0 1 265a839a8e2b](https://user-images.githubusercontent.com/17021558/203726455-7f5fe73d-58fc-472a-b3c8-bb9fbb80fd16.png)
 
 ## Base workflow
-![2022-11-02 10 55 17 127 0 0 1 c12d9c9abb8e](https://user-images.githubusercontent.com/17021558/199445402-b707560e-f36c-4d71-a146-829e2638fd7b.png)
-
 As you can see in the above image, the prompt seems fairly simple, but the result has a distinct look. That is thanks to the selections from the StylePile dropdowns below. Main workflow is - come up with a interesting theme, then easily mix and match style elements to get it closer to desired result.
 For example, if you select the **Painting** image type, then almost all results will look like Paintings. Selecting **Mood** will have a certain influence on the overall look in some way (if it's something humanoid it may show emotion, but also colors and overall feel may change). Setting **Colors** will change the general tonality of the result. And setting **View** will attempt to change how the subject is viewed. Attempt, because view appears to be the least reliable keyword. These elements are placed in order of influence and supported by certain strength values. These basic settings produce very quick results close to the general look you want.
 
