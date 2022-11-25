@@ -17,7 +17,7 @@
 # Art movements from https://en.wikipedia.org/wiki/List_of_art_movements I threw out the ones that did not work
 
 # Portrait prompt - Portrait of an attractive young lady,flower field background, (by artist [X]:1.3), square ratio
-# Negative - missing limbs, extra limbs, watermark,label,text
+# Negative - missing limbs, extra limbs
 
 # Landscape prompt - Small house in the middle of a forest,near a lake
 # Action prompt - Astronaut floating in space,firing laser at alien ship,galaxy background
@@ -658,6 +658,8 @@ class Script(scripts.Script):
                     AllArtists + TypePositives + AllMovements + \
                     FinalResultColors + Preset[ddPreset]
 
+                MainNegative = copy_p.negative_prompt
+
                 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
 
                 for z in range(SubCycleCount):
@@ -683,7 +685,7 @@ class Script(scripts.Script):
                     # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
 
                     # Clean up negative prompt
-                    TempText = copy_p.negative_prompt + TypeNegatives + \
+                    TempText = MainNegative + TypeNegatives + \
                         AlwaysBad + PresetNegatives[ddPreset]
 
                     TempText = " ".join(TempText.split())
