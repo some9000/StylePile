@@ -554,11 +554,11 @@ class Script(scripts.Script):
             for y in range(IterCount):
 
                 # Copy of the main prompt module to make batches, I guess...
-                copy_p = copy.copy(p)
+                #copy_p = copy.copy(p)
 
-                if copy_p.seed != -1:  # and 'p.seed' in locals():
-                    copy_p.seed += SeedStep
-                    SeedStep += 1
+                #if copy_p.seed != -1:  # and 'p.seed' in locals():
+                #    copy_p.seed += SeedStep
+                #    SeedStep += 1
 
             # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
 
@@ -619,7 +619,8 @@ class Script(scripts.Script):
                     if len(BatchLines[CurrentChoice % LineCount]) > 0:
                         TempText = BatchLines[CurrentChoice % LineCount]
 
-                TempText = copy_p.prompt.replace("[X]", TempText)
+                #TempText = copy_p.prompt.replace("[X]", TempText)
+                TempText = p.prompt.replace("[X]", TempText)
 
                 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
 
@@ -658,11 +659,17 @@ class Script(scripts.Script):
                     AllArtists + TypePositives + AllMovements + \
                     FinalResultColors + Preset[ddPreset]
 
-                MainNegative = copy_p.negative_prompt
+                #MainNegative = copy_p.negative_prompt
+                MainNegative = p.negative_prompt
 
                 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
 
                 for z in range(SubCycleCount):
+                    # Copy of the main prompt module to make batches, I guess...
+                    copy_p = copy.copy(p)
+
+                    if copy_p.seed != -1:  # and 'p.seed' in locals():
+                        copy_p.seed += SeedStep
 
                     SubTempText = ""
                     if SubLineCount > 0:
@@ -707,7 +714,8 @@ class Script(scripts.Script):
                     images += proc.images
 
                     SubCurrentChoice += 1
-
+            
+            SeedStep += 1
             CurrentChoice += 1
 
         p.batch_size = JobCount
@@ -717,7 +725,4 @@ class Script(scripts.Script):
             print(
                 f"\n\nStylePile processing complete. Here's a random tip:\n{random.choice(TipsAndTricks)}\n")
 
-        #Proper support for infotext for each generated image is broken for now... :(
-        #return Processed(p,images,p.seed,infotexts)
-
-        return Processed(p, images, p.seed, "Positives: " + p.prompt + "\nNegatives:" + p.negative_prompt + "\nSeed: " + str(p.seed))
+        return Processed(p=p, images_list=images, seed=p.seed, info=infotexts[0], infotexts=infotexts)
