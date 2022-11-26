@@ -544,7 +544,7 @@ class Script(scripts.Script):
                     AllMovements += ",(" + selArtMovementB + ":" + str(selArtMovementStrengthB) + ")"
 
             if selArtMovementC != "Not set":
-                if ArtMovements[selArtMovementC] == "Random":
+                if selArtMovementC == "Random":
                     AllMovements += ",(" + random.choice(ArtMovementList) + ":" + str(selArtMovementStrengthC) + ")"
                 else:
                     AllMovements += ",(" + selArtMovementC + ":" + str(selArtMovementStrengthC) + ")"
