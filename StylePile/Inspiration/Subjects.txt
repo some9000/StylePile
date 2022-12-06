@@ -1,0 +1,80 @@
+Knight
+Futuristic Knight
+Medieval Knight
+Cyborg
+Damaged Cyborg
+Robot
+Damaged Robot
+Futuristic Soldier
+Soldier
+Beautiful lady
+Lady
+Georgeous young woman
+Masculine man
+Bearded man
+Amazon
+Sorceress
+Witch
+Priestess
+Barbarian
+Demon hunter
+Necromancer
+Wizard
+Alien
+Monster
+Princess
+Animal
+Cat
+Dog
+Fox
+Steampunk Robot
+Scientist
+Ghost
+Demon
+Technician
+Car
+Bicycle
+Motorbike
+Tree
+Death
+Life
+Humanoid
+Dragon
+Minotaur
+Golem
+Vampire
+Machine
+Creature
+Shiba Inu
+Elemental
+Frozen monster
+Fire monster
+Dinosaur
+Skeleton
+Bounty hunter
+Pirate
+Officer
+Astronaut
+Mech
+Battle robot
+Cute robot
+Hero
+Superhero
+Hologram
+Fashion Model
+Panda
+Tiger
+Bear
+Statue
+Prince
+Marine
+Handsome man
+Handsome woman
+Cyborg cat
+Cyborg dog
+Ninja
+Buff man
+Buff woman
+Attractive woman
+Attractive man
+Husky
