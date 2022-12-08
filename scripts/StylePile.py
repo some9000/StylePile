@@ -350,7 +350,7 @@ class Script(scripts.Script):
                     value=True, label="Increase seed with batch size")
                 cbShowTips = gr.Checkbox(
                     value=False, label="Show tips when generating")
-                #ddPreset = gr.Dropdown(list(Preset.keys()), label="Style influence (incomplete)", value="None")
+                ddPreset = gr.Dropdown(list(Preset.keys()), label="Style influence (incomplete)", value="None")
             with gr.Row():
                 strSequentialPrompt = gr.Textbox(
                     lines=3, label="Sequential prompts [X]", placeholder="Insert [X] anywhere in main prompt to sequentially insert values from here. Random values will be added here or to main prompt.")
@@ -574,7 +574,7 @@ class Script(scripts.Script):
                 sliImageArtistStrengthC,
                 selArtistC,
                 cbShowTips,
-                #ddPreset
+                ddPreset
                 ]
 
     # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
@@ -609,7 +609,7 @@ class Script(scripts.Script):
             sliImageArtistStrengthC,
             selArtistC,
             cbShowTips,
-            #ddPreset
+            ddPreset
             ):
 
         # If it's all empty just exit function.
@@ -828,7 +828,7 @@ class Script(scripts.Script):
                 # Our main prompt composed of all the selected elements
                 MainPositive = TypeFront + FinalResultDirection + FinalResultMood + TempText + \
                     AllArtists + TypePositives + AllMovements + \
-                    FinalResultColor #+ Preset[ddPreset]
+                    FinalResultColor + Preset[ddPreset]
 
                 #MainNegative = copy_p.negative_prompt
                 MainNegative = p.negative_prompt
@@ -882,7 +882,7 @@ class Script(scripts.Script):
 
                     # Clean up negative prompt
                     TempText = MainNegative + TypeNegatives + \
-                        AlwaysBad #+ PresetNegatives[ddPreset]
+                        AlwaysBad + PresetNegatives[ddPreset]
 
                     TempText = " ".join(TempText.split())
                     TempText = " ".join(TempText.split())
