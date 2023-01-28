@@ -37,11 +37,11 @@ import modules.scripts as scripts
 import gradio as gr
 from modules.processing import Processed, process_images
 from modules.shared import cmd_opts, opts, state
+from modules import scripts
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=->
 
-file_dir = os.path.dirname(os.path.realpath("__file__"))
-ResourceDir = os.path.join(file_dir, f"extensions/StylePile/StylePile/")
+ResourceDir = os.path.join(scripts.basedir(), f"StylePile/")
 
 def FilesInFolder(SourceFolder):
     return [file for file in os.listdir(SourceFolder)]
