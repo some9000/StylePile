@@ -629,6 +629,8 @@ class Script(scripts.Script):
         SubTempText = ""
 
         images = []
+        seeds = []
+        prompts = []
         infotexts = []
 
         # Overtake amounts of things to generate so we can go through different variables
@@ -904,6 +906,8 @@ class Script(scripts.Script):
                     proc = process_images(copy_p)
                     infotexts += proc.infotexts
                     images += proc.images
+                    seeds.append(proc.seed)
+                    prompts.append(proc.prompt)
 
                     SubCurrentChoice += 1
 
@@ -919,4 +923,5 @@ class Script(scripts.Script):
             print(
                 f"\n\nStylePile processing complete. Here's a random tip:\n{random.choice(TipsAndTricks)}\n")
 
-        return Processed(p=p, images_list=images, seed=p.seed, info=infotexts[0], infotexts=infotexts)
+        return Processed(p=p, images_list=images, seed=p.seed, all_seeds=seeds, all_prompts=prompts, info=infotexts[0],
+                         infotexts=infotexts)
