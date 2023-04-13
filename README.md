@@ -52,7 +52,7 @@ Parenthesis can be added to make pArts of the prompt stronger. So **((cute kitte
 
 Prompts can be split like **[A|B]** to sequentially use terms, one after another on each step. For example **[cat|dog]** will produce a hybrid catdog.
 
-Using **[A:B:0.4]** will switch to other terms after the first one has been active for a certain percentage of steps. So **[cat:dog:0.4]** will build a cat 40% of the time and then stArt turning it into a dog. Usually this needs more steps to work properly.
+Using **[A:B:0.4]** will switch to other terms after the first one has been active for a certain percentage of steps. So **[cat:dog:0.4]** will build a cat 40% of the time and then start turning it into a dog. Usually this needs more steps to work properly.
 
 Additionally the command line will also share more information than by default so you can get a better idea on the progress of your artworks:
 
