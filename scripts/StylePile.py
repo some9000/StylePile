@@ -18,6 +18,8 @@
 # I threw out the ones that did not work and then added a mountain more
 # from personal research.
 
+#git push origin new-branch-name
+
 import os
 import re
 import copy
