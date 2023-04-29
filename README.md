@@ -1,98 +1,93 @@
-![StylePile](https://user-images.githubusercontent.com/17021558/202690454-cc31a9b9-ba48-484c-89b2-cdfd8bad247c.svg)
+![Top](https://user-images.githubusercontent.com/17021558/232333865-604dbff8-de69-4eed-9b71-c2d8050243d1.png)
+StylePile is an extension for https://github.com/AUTOMATIC1111/stable-diffusion-webui designed to help you efficiently generate diverse results without delving deep into the technical aspects of the prompt. The images shown above and below were created using the standard `v2-1_512-ema-pruned.ckpt`, all with the same prompt: "Portrait of an attractive young lady, flower field background, square ratio". The same seed was used for each image, while StylePile handled the rest.
 
-**Note:** This manual is somewhat incomplete at the moment, it does not explain the variable functions, but those should be reasonably self explanatory. Will be finalized later.
+Jump to the INTRODUCTION section to learn more, or scroll further down to read the MANUAL.
 
-**Important:** If you had any previous version you need to remove that from the scripts directory to avoid conflicts. Just delete the **StylePile.py** file and the **StylePile** folder there.
+![StylePile 2](https://user-images.githubusercontent.com/17021558/232105621-006ac476-b769-478e-b4fa-bc7e60f35711.svg)
 
-**StylePile**[^1] is an extension for https://github.com/AUTOMATIC1111/stable-diffusion-webui for mixing and matching elements to prompts that affect the style of the result. Hence the name. By default, these elements are placed in a specific order and given strength values. Which means the result sort-of evolves. I have generated thousands of images for each main **Image type** and tweaked the keywords to attempt giving expected results most of the time. Here are some examples on what you can get with a couple of clicks:
+**StylePile 2.1** has arrived, named after the most recent version of the base model used for its testing and development. Plus, it represents a huge leap forward from the previous version. You can find a full description below the installation instructions.
 
-![F](https://user-images.githubusercontent.com/17021558/199468444-99e78027-1889-4bec-b97b-25f801e33c0a.jpg)
-![A](https://user-images.githubusercontent.com/17021558/199458710-efc7520d-70a1-475b-8ca0-dbdc3182b865.jpg)
-![C](https://user-images.githubusercontent.com/17021558/199459334-8fcd6f9a-0125-4b9f-bc38-e9048adf798b.jpg)
-![B](https://user-images.githubusercontent.com/17021558/199458741-61e00c9f-d3bd-472e-9fef-ff0dd8061605.jpg)
-![D](https://user-images.githubusercontent.com/17021558/199462277-a6c25028-96a4-4508-8577-cd79f9e6afd9.jpg)
-![E](https://user-images.githubusercontent.com/17021558/199465943-c69ea9c3-61db-4bc5-ae59-2d95b0c5d979.jpg)
-I left the less successful results in on purpose, to show that this isn't some magical tool that overcomes all the difficulties that Stable Diffusion currently has. But it does help you go on that artistic journey way easier. So let's begin.
+![Middle](https://user-images.githubusercontent.com/17021558/232378508-f4a702ba-6179-4f7c-9cc2-5354030b3875.png)
 
-## Installation
-In theory you should be able to use the **Install from URL** feature:
-* Copy the main address (https://github.com/some9000/StylePile) of this repository,
-* In SDUI go to **Extensions tab**,
-* Select **Install from URL** and paste that URL into the **URL for extension's git repository field,
-* Press Install.
+# Installation
+**Important:** If you've used any previous version, make sure to remove it from the scripts or extensions directory to avoid conflicts. Simply delete the **StylePile.py** file and/or the **StylePile** folder there. If you've added your own images, it's a good idea to copy them out and then copy them back in later.
 
-If all goes well the necessary directories will be automatically created and all the files downloaded into them. After which the extension should be available under the **Scripts** dropdown in both **txt2img** and **img2img**. If you get error messages or it does not show up even after a full SD restart try this:
-* Click the green **Code** button at the top of the page,
-* Select the **Download ZIP** option,
-* When done extract everything from there and drop it into your **stable-diffusion-webui\extensions\StylePile** folder.
+I know you probably don't enjoy scrolling through lengthy descriptions just to find installation instructions. I don't either, so here they are:
 
-Basically you should have a **scripts** and **StylePile** folder inside that folder. It is ok to have another StylePile folder inside the main one. This is what should show up when it loads (without the cyborg knight, though, you will have to render that on your own):
-![2022-11-24 10 01 18 127 0 0 1 265a839a8e2b](https://user-images.githubusercontent.com/17021558/203726455-7f5fe73d-58fc-472a-b3c8-bb9fbb80fd16.png)
+### Automatic (pun intended)
+If you're using the original AUTOMATIC1111 version:
++ Head to the **Extensions** tab
++ Click **Available**
++ Click **Load from:** and wait a moment for the list to update
++ Scroll down the list or simply use **Ctrl+F - StylePile** and click **Install**
++ If everything went smoothly, it should appear in the Script dropdown for both txt2img and img2img.
 
-## Base workflow
-As you can see in the above image, the prompt seems fairly simple, but the result has a distinct look. That is thanks to the selections from the StylePile dropdowns below. Main workflow is - come up with a interesting theme, then easily mix and match style elements to get it closer to desired result.
-For example, if you select the **Painting** image type, then almost all results will look like Paintings. Selecting **Mood** will have a certain influence on the overall look in some way (if it's something humanoid it may show emotion, but also colors and overall feel may change). Setting **Colors** will change the general tonality of the result. And setting **View** will attempt to change how the subject is viewed. Attempt, because view appears to be the least reliable keyword. These elements are placed in order of influence and supported by certain strength values. These basic settings produce very quick results close to the general look you want.
+### Semi-automatic
+If the automatic method didn't work, try this:
++ Go to the **Extensions** tab
++ Choose **Install from URL**
++ Copy this address **https://github.com/some9000/StylePile** into the **URL for extension's git repository** field (or https://github.com/some9000/StylePile/edit/Beta-2.1 for this Beta version)
++ Enter **StylePile** into the **Local directory name** field
++ Click the **Install** button
 
-Moving on, adding a **Visual style** will combine with **Image type** to influence how the result generally looks. These styles are based on classic and modern Painting/Art/design movements (which I picked after hours and thousands of samples of testing) and can have a strong influence on the end result. Either it will be more realistic or artistic, or look like a comic book etc. In general, this is a really strong element for getting the look you want. Its influence can be adjusted with the slider above. Experiment with the values, keeping in mind that anything above 1.5 will start becoming a mess. In a similar way, but more focused, you can select an **Artist** and, of course, that will have a very visible effect on the result as well. Currently there are 135 artists, 55 art styles and 25 emotions available for selection and represented with preview images.
+### Manual
+If neither method worked, or you're using a custom version that supports extensions but not auto installation/updating, follow these steps:
++ Click the green **<> Code** button above
++ Click **Download zip**
++ Wait for the download to finish
++ Navigate to **your-sd-folder\extensions**
++ Place the contents of the archive into a **StylePile** folder. It's okay if there's another StylePile folder in there. As long as the README.md is inside your-sd-folder\extensions\StylePile, you're good to go.
++ Launch stable-diffusion-webui, or if it's already open, head to **Settings** and press **Reload UI**.
++ If everything went well, it should appear in the Script dropdown for both txt2img and img2img.
 
-Strength of these settings has been preset at 1.3, as that appears to be the golden ratio for getting good results. Sometimes very low settings have an interesting result as well. You can, and should, freely mix and match these settings to get different results. Classic Painting styles affected or affecting 3D look quite interesting. Photography can look cool with some of the brighter, more artistic styles etc. Sometimes raising CFG scale to 15,20 or more also helps to REALLY push the style onto the image.
+## ANNOYING INTERMISSION
+Since we moved the installation instructions up, it's only fair to bump up the important note as well, right? This passion project has consumed a significant amount of time, electricity, and now, ChatGPT subscription costs too. My Python coding skills aren't the best, but ChatGPT has been a huge help (not to mention all the amazing people on GitHub who've helped with my clumsy code). In addition to that I created some custom tools to process the resulting files, prepare the thumbnails etc. So if you've been enjoying StylePile and feel like offering some support:
 
-## Advanced workflow
-![2022-11-02 11 04 02 127 0 0 1 b49227fa903f](https://user-images.githubusercontent.com/17021558/199448363-0e61f273-6321-40d2-bcf2-544956de6b87.png)
+<a href="https://www.buymeacoffee.com/some9000" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/guidelines/download-assets-1.svg" alt="Buy Me A Coffee"></a>
 
-StylePile can overtake the generation process, allowing you to generate a large amount of different results with very little extra work. There are two types of variables you can use: [X] and [R]. When you add an [X] to your prompt, it sequentially takes values from the **Sequential prompts** text area. You can have dozens of lines there and they will be processed in sequence. When you add [R] to the prompt a value from the **Random prompts** text area will be inserted in its place. By combining these a huge variety in prompts is very easy to do.
+# INTRODUCTION
+When I first started learning Stable Diffusion prompting, it felt like a real hassle to change all the keywords just to get a different look. So, I created a basic little script that would just add some values from dropdown menus. Over time, as I learned more about crafting prompts and saw how various elements could significantly impact the outcome, I kept tweaking and refining it. Now, we've arrived at version 2.1, packed with a ton of enhancements, some cool new features, and better results overall. Let's dive into what StylePile has to offer:
 
-When using this, **Batch count** will move through the prompts and **Batch size** will set how many copies with the given prompt to make. If the seed is not random, it will increase with each batch size step. Any random elements will still be picked randomly. Here are the results from the demo above:
+![2023-04-16 21 18 59 127 0 0 1 e643003fa46d](https://user-images.githubusercontent.com/17021558/232333485-d8378243-6716-447f-9cff-7112fdb388e7.png)
 
-![Demo](https://user-images.githubusercontent.com/17021558/199448928-73b93a35-8c5c-42d9-ab78-6b3f32a6a86f.jpg)
-## Tips and tricks
-If you add your own Artist, I would recommend having "by Artist" in front of their name. Depending on Artist's popularity (or lack thereof) this appears to have a very tangible influence on the result.
+## Basic
+- Quickly put together a specific look for your results by choosing **Presets** for **Concepts, Image types, Execution, Mood, Color**, and easily adjust their intensity.
+- A collection of **Visual previews** to give you an idea of what each selection might look like.
+- **Random selection** options to explore a diverse range of artistic styles and approaches.
+- Easy-to-use tools for creating prompt elements like **Attention/emphasis strength, Morph from-to**, and **Alternating words**. Sure, you could write these yourself, but it's easy to forget the right way to do it.
+- A huge library of **Artist names** and **Art movements** hand-tested on thousands of images, all mix-and-matchable with the other selections mentioned above.
+- A **Different generation status look** that keeps you informed about the generation process while supporting new features.
+## Advanced
+- The ability to **Use variables inside your prompt**, including one main variable [X], one sub-variable [Y], and six random variables [A][B][C][D][E][F]. All elements support multiple lines, allowing for the automatic creation of hundreds of prompts. You can also mix in random elements for added variety.
+- A **Preset function** that lets you load and save these variables, along with a comment field, so you don't have to fill in all 10 possible prompt fields again. Try out the included presets, create your own, and share them to be included in future versions.
+- The prompt sequencing has been revamped to support these features, with the tradeoff of losing how Batches typically work. However, you can now **Create complex loops for discovering new looks**. If a random seed has been entered manually, you can choose if it should increase with each run of Batch size. When a new Batch count loop starts, the seed will reset, enabling extensive automated look testing.
 
-Parenthesis can be added to make pArts of the prompt stronger. So **((cute kitten))** will make it extra cute (try it out). This is also important if a style is affecting your original prompt too much. Make that prompt stronger by adding parenthesis around it, like this: **((promt))**. A strength modifier value can also be used, like this **(prompt:1.1)**. To save some typing you can select the line you want to make stronger and use **Ctrl+Shift+Arrow keys up** or **down** to add these parenthesis and change the value. As you can see by default values on most sliders, 1.3 seems like a good stArting point if you want to see some impact.
+## Customization
+- Everything in StylePile 2.1 is read from external sources, allowing you to **Customize all values** as needed. Add or remove base Image Types, modify what's included in Type lists, and add or remove Artists and Art movements.
+- Edit the random prompt list with your own entries (for simple prompt insertion instead of the more complex variable preset approach) and change the prompt mixing and matching lists. More details on this below.
 
-Prompts can be split like **[A|B]** to sequentially use terms, one after another on each step. For example **[cat|dog]** will produce a hybrid catdog.
+# MANUAL
+## Main generation parameters
+NOTE: Unless specified otherwise, all images are marked as Digital Artwork along with the option they demonstrate. To create your own test images with the same settings, click the Default prompt button, and the setup will replicate the configurations used here.
 
-Using **[A:B:0.4]** will switch to other terms after the first one has been active for a certain percentage of steps. So **[cat:dog:0.4]** will build a cat 40% of the time and then start turning it into a dog. Usually this needs more steps to work properly.
+StylePile offers a versatile collection of image appearance parameters, allowing users to combine, adjust, and apply them to numerous images systematically or randomly. The most critical components are Image type and Execution. Image type is self-explanatory, while Execution may not always perform as described but significantly influences the outcome. Some niche options are included as they yield intriguing results. Combining two Execution selections can create an even more diverse style and lead to impressive outcomes:
+![Type and Execution](https://user-images.githubusercontent.com/17021558/233005104-d5c0c865-5bc0-460c-823a-587a5bc385d0.jpg)
 
-Additionally the command line will also share more information than by default so you can get a better idea on the progress of your artworks:
+Next, we have **Concept/Direction/Adjective**. While not a strong modifier, it still impacts the image:
+![Concept](https://user-images.githubusercontent.com/17021558/233006111-1506600d-88c5-48da-931c-ffdef344c640.jpg)
 
-![image](https://user-images.githubusercontent.com/17021558/199454650-c0859776-0bbb-4ad1-b037-6ad4b4b75cd3.png)
-## In conclusion
-I made this because manually changing keywords, looking up possible styles, etc was a pain. It is meant as a fun tool to explore possibilities and make learning Stable Diffusion easier. If you have some ideas or, better yet, would like to contribute[^2] in some way do get in touch.
+Following this is **Mood/Feeling**, which not only influences facial expressions on humanoid models but also alters the scene's overall appearance and ambiance:
+![Mood](https://user-images.githubusercontent.com/17021558/233006642-115165ed-b3bc-470f-ba27-42683adc86a9.jpg)
 
+Finally, there's **Palette/Color influence** that can significantly affect the final result, depending on its type:
+![Color](https://user-images.githubusercontent.com/17021558/233007095-382ba754-406b-4896-9979-9f1ea5f42160.jpg)
 
+## Artists and Art movements
+Selecting **Artists** and/or **Art movements** can significantly influence your image by incorporating distinct stylistic elements. StylePile allows you to generate images inspired by renowned artists or prominent art movements. The effectiveness of specific selections may vary with different models. However, you are encouraged to experiment with the three available options for each type. This approach promotes creativity, enabling you to create some really unique visuals. Here is an example of selecting an Artist:
 
+![Artists](https://user-images.githubusercontent.com/17021558/233011017-b86d48fd-a231-47b7-bb00-1148941397f5.jpg)
 
+And here an Art style:
+![Art Style](https://user-images.githubusercontent.com/17021558/233011066-b7fc2051-094f-4d4b-af90-2af0c17f7336.jpg)
 
-## Focus on (partially implemented)
-At the bottom the **Focus on** option adds a much larger amount of elements to the prompt with a single click. And that greatly affects the final result. Currently there are not too many presets but, hopefully, with your help that will change soon. So here is how it works:
-
-Prompt of **Knight in armor** without any input:
-
-![Default](https://user-images.githubusercontent.com/17021558/196643976-f7409711-ee6e-4a27-9524-a03827384c34.png)
-
-A little boring, a little random. Let's try **Feminine and extra attractive**:
-
-![KnightLadies](https://user-images.githubusercontent.com/17021558/196644475-596e7c05-bed4-47cd-9afc-56ff70a4ca8c.png)
-
-And now **Masculine and extra attractive**:
-
-![KnightMen](https://user-images.githubusercontent.com/17021558/196644706-2df9e416-c6f5-4247-8129-3f2ce3f66cc2.png)
-
-There are also more artistic adjustments, such as **Monsters**. A trick was used in this example - if you use just the Monsters focus the result will be mostly chaotic and horrifying as a monster should be. But if, as in this case, you pick a style from the menu above that can greatly affect the result. In this case it was Photography and brought a little balance into those results:
-
-![MonsterKnights](https://user-images.githubusercontent.com/17021558/196644813-7f3184b0-1b81-4a16-a078-c8f3d7a8c419.png)
-
-Also, not all adjustments will work with all prompts, such as this **Robots** one having a hard time with knights:
-
-![Robots](https://user-images.githubusercontent.com/17021558/196645673-17d24ea2-bb9a-4089-9863-d5d0f6deac2e.png)
-
-So you should just mix and match and experiment to find out which styles work well together. Or don't, that also produces interesting results.
-
-# With img2img
-For example, you liked that lady knight example from above, but would prefer it as a painting. Just transfer it to img2img, mix styles with Focus and get a pleasant result quickly (but, preferrably do a batch, Stable Diffusion still doesn't magically make every result great). 
-
-![2022-10-21 09 56 57 127 0 0 1 8469e9f6d637](https://user-images.githubusercontent.com/17021558/197132497-f5d6b9cb-7ac1-4c83-94ba-4b0b13fc90ef.png)
-
-[^1]: Pun intended.
-[^2]: Hey, if you have a 12Gb graphics card just laying around I'm happy to take it (:
+## Advanced automated elements
