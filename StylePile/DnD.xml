@@ -1,0 +1,131 @@
+<Preset>
+<<<<<<< HEAD
+<Info>I have 0 idea about DnD, but creating a mountain of different characters sounded like fun. So after a conversation with ChatGPT this preset was created.</Info>
+<Positive>Portrait of [A] [B] [C] [D] [E], detailed thematic background</Positive>
+<Negative>Empty background, Plain background, Single color background, Nudity</Negative>
+<X> </X>
+<Y> </Y>
+<A>Young Adult
+Adult
+Middle-Aged
+Elderly
+Ancient</A>
+<B>Adventurer
+Fame seeker
+Wealth seeker
+Power seeker
+Avenging
+Knowledge Seeking
+Fighter
+Lover
+Faith seeker</B>
+<C>Male
+Female</C>
+<D>Human
+Elf
+Dwarf
+Halfling
+Gnome
+Half-Elf
+Half-Orc
+Tiefling
+Dragonborn
+Aarakocra
+Aasimar
+Firbolg
+Genasi
+Goliath
+Kenku
+Lizardfolk
+Tabaxi
+Triton
+Bugbear
+Goblin
+Hobgoblin
+Kobold
+Orc
+Yuan-ti Pureblood
+Tortle</D>
+<E>Barbarian
+Bard
+Cleric
+Druid
+Fighter
+Monk
+Paladin
+Ranger
+Rogue
+Sorcerer
+Warlock
+Wizard</E>
+<F>Acolyte
+Charlatan
+Criminal
+Spy
+Entertainer
+Gladiator
+Folk Hero
+Guild Artisan
+Guild Merchant
+Hermit
+Noble
+Knight
+Outlander
+Sage
+Sailor
+Pirate
+Soldier
+Urchin</F>
+=======
+<Info>Generate a variety of humans. Use Image type/Technology to set the main look. Concept/Direction/Adjective to give it a certain appearance. And use Feeling/Mood to either have a single feel for everyone or set it to random to have more natural variety between the portraits. Enjoy!</Info>
+<Positive>Close portrait of [A] [B] [C] with [D] [E] hair and [F] eyes</Positive>
+<Negative>Frame, Nudity</Negative>
+<X> </X>
+<Y> </Y>
+<A>
+Muscular
+Lean
+Fit
+Unattractive
+Plain
+Average-looking
+Pleasant-looking
+Good-looking
+Handsome
+Beautiful
+Stunning
+Gorgeous</A>
+<B>African
+East Asian
+South Asian
+Southeast Asian
+Middle Eastern
+Northern European
+Western European
+Central European
+Eastern European
+Southern European
+Native American
+Aboriginal </B>
+<C>Ork
+Elf
+Gnome
+Human</C>
+<D>Curly
+Wavy
+Straight
+Short
+Long
+No</D>
+<E>Very Light
+Light
+Medium
+Dark
+Very Dark</E>
+<F>Very Light
+Light
+Medium
+Dark
+Very Dark</F>
+>>>>>>> 8c25c38 (Update)
+</Preset>

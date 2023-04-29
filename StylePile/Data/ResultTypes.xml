@@ -1,0 +1,45 @@
+<Results>
+  <!-- You can add your own presets here. Just copy one of the existing ones and edit it. -->
+  <!-- Preset starts -->
+  <Result name="Photo">
+    <TypeBefore>Photo</TypeBefore>
+    <Positives>Photo</Positives>
+    <Negatives></Negatives>
+  </Result>
+  <!-- Preset ends -->
+  <Result name="Digital Artwork">
+    <TypeBefore>Digital Artwork</TypeBefore>
+    <Positives>,CGSociety,ArtStation</Positives>
+    <Negatives>Screenshot</Negatives>
+  </Result>
+  <Result name="3D Rendering">
+    <TypeBefore>3D Rendered Artwork</TypeBefore>
+    <Positives>,CGSociety,ArtStation</Positives>
+    <Negatives>Wireframe,Polygons,Screenshot</Negatives>
+  </Result>
+  <Result name="Painting">
+    <TypeBefore>Painting</TypeBefore>
+    <Positives></Positives>
+    <Negatives>Brushes,Art tools</Negatives>
+  </Result>
+  <Result name="Drawing">
+    <TypeBefore>Hand drawn Artwork</TypeBefore>
+    <Positives></Positives>
+    <Negatives>Pencils,Art tools</Negatives>
+  </Result>
+  <Result name="Vector Art">
+    <TypeBefore>Vector image</TypeBefore>
+    <Positives></Positives>
+    <Negatives></Negatives>
+  </Result>
+  <Result name="Mixed media">
+    <TypeBefore>Mixed media Artwork</TypeBefore>
+    <Positives></Positives>
+    <Negatives></Negatives>
+  </Result>
+  <Result name="Real">
+    <TypeBefore>Real</TypeBefore>
+    <Positives></Positives>
+    <Negatives></Negatives>
+  </Result>
+</Results>

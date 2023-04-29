@@ -1,0 +1,119 @@
+<Preset>
+<Info>Let's try some cyberpunk stuff. Mostly good with Digital Artwork or 3D Rendering. I had neat results with (Imaginative 3D Rendered Artwork:1.3) of (Ultra detailed:1.3) look [prompt here] (Fujifilm Superia:1)</Info>
+<Positive>Cyberpunk Close up portrait of [A] [B]  with [D], wearing [C], standing near [E] [F]</Positive>
+<Negative>distorted pupils,distorted eyes,Unnatural anatomy,strange anatomy</Negative>
+<X></X>
+<Y></Y>
+<A>Blonde-haired Sofia
+Brunette-haired Anastasia
+Black-haired Maria
+Red-haired Emily
+Blonde-haired Vivian
+Brown-haired Mei
+Black-haired Yuna
+Blonde-haired Jing
+Brunette-haired Priya
+Red-haired Anika
+Black-haired Fatima
+Blonde-haired Aisha
+Brown-haired Amara
+Brunette-haired Zara
+Black-haired Keisha
+Blonde-haired Tiana
+Brown-haired Nia
+Red-haired Malia
+Brunette-haired Lucia
+Black-haired Isabella
+Blonde-haired Eloise
+Brown-haired Fleur
+Red-haired Greta
+Brunette-haired Siobhan
+Black-haired Oksana
+Blonde-haired Natalia
+Brown-haired Elena
+Red-haired Naomi
+Brunette-haired Kenya
+Black-haired Amani
+Blonde-haired Adisa
+Brown-haired Sade
+Red-haired Chihiro
+Brunette-haired Haruka
+Black-haired Aiko
+Blonde-haired Riko
+Brown-haired Anastasia
+Red-haired Ivana
+Brunette-haired Eszter</A>
+<B>Hacker
+Street Samurai
+Infiltrator
+Technomancer
+Combat Medic
+Rigger
+Enforcer
+Cyber-Ninja
+Corporate Spy
+Drone Operator
+Fixer
+Cyberdeck Specialist
+Social Engineer
+Bioware Adept
+Netrunner</B>
+<C>Hoodie, cyber-goggles, LED gloves
+Trench coat, armored vest, katana
+Stealth suit, face mask, cybernetic arms
+Nanofiber robe, cybernetic arms
+Tactical armor, medical insignia, utility belt
+Jumpsuit, tool harness, mechanized limbs, LEDs
+Heavy exoskeleton, visible cybernetics, scarred face
+Futuristic ninja garb, concealed weaponry, adaptive camouflage
+Sleek business attire, hidden gadgets, fashionable accessories
+Armor with multiple plugs, portable drone station
+Casual streetwear, angular, face circuits
+Customized cyberdeck, cables, neural interface helmet
+High-end fashion, persuasive charm, holographic ID
+Organic-looking cybernetics, skin-tight bodysuit, bioluminescent markings
+Futuristic tracksuit, neural jack, cybernetic legs</C>
+<D>Reflective full face mask
+Sunglasses
+Glowing line visor
+Regular face
+Beautiful face
+Rough face
+(Robot jaw:1.2)
+(Robot skull:1.2)
+(Robotic face:1.2)
+Cybernetic lens eyes
+Glowing eyes
+Blind eyes
+Black eyes
+Damaged face
+(Cyborg head:1.2)
+(Four eyed robot face:1.2)
+(T-shaped robot face:1.2)
+(V-shaped robot face:1.2)
+Irregular robot face
+(Transparent skin:1.2)
+(Plastic face:1.2)
+(Cyborg skull:1.2)</D>
+<E>Neon-lit market
+Rooftop garden
+Abandoned factory
+Corporate skyscraper
+Underground club
+Cybernetic clinic
+High-tech slums
+VR arcade
+Drone racing arena
+Holographic art gallery
+Dirty underground tunnel
+Toxic sewers</E>
+<F>at Night
+in the Morning
+in Daytime
+at Midday
+at Noon
+at Sunset
+at Midnight
+in Evening
+at Dusk</F>
+</Preset>

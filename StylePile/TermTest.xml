@@ -1,0 +1,17 @@
+<Preset>
+<Info> </Info>
+<Positive>[a] cat with [B] eyes on a [A] couch</Positive>
+<Negative> </Negative>
+<X></X>
+<Y></Y>
+<A>brown
+orange
+white</A>
+<B>red
+green
+blue</B>
+<C></C>
+<D></D>
+<E></E>
+<F></F>
+</Preset>

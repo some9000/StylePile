@@ -1,0 +1,19 @@
+<Preset>
+<Info>Base testing prompt to see if the system properly goes through the different prompt sublevels etc.</Info>
+<Positive>Portrait of an attractive young [X] lady with [Y] and [A] eyes,flower field background, square ratio</Positive>
+<Negative> </Negative>
+<X>Blonde
+Brunette</X>
+<Y>A hat
+Glasses</Y>
+<A>Light blue
+Brown
+Green
+Blue
+Hazel</A>
+<B></B>
+<C></C>
+<D></D>
+<E></E>
+<F></F>
+</Preset>

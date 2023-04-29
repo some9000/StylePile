@@ -1,0 +1,81 @@
+<Preset>
+<Info>Generate a variety of humans. Use Image type/Technology to set the main look. Concept/Direction/Adjective to give it a certain appearance. And use Feeling/Mood to either have a single feel for everyone or set it to random to have more natural variety between the portraits. Enjoy!</Info>
+<<<<<<< HEAD
+<Positive>Portrait of [A] [B] [C] with [E] [D] and [F] eyes</Positive>
+=======
+<Positive>Close portrait of [A] [B] [C] with [D] [E] hair and [F] eyes</Positive>
+>>>>>>> 7c9175c (Ok)
+<Negative>Frame, Nudity</Negative>
+<X></X>
+<Y></Y>
+<A>
+Muscular
+Lean
+Fit
+Unattractive
+Plain
+Average-looking
+Pleasant-looking
+Good-looking
+Handsome
+Beautiful
+Stunning
+Gorgeous</A>
+<B>African
+East Asian
+South Asian
+Southeast Asian
+Middle Eastern
+Northern European
+Western European
+Central European
+Eastern European
+Southern European
+Native American
+Aboriginal </B>
+<C>Male child
+Female child
+Male preteen
+Female preteen
+Male teenager
+Female teenager
+Male young adult
+Female young adult
+Male adult
+Female adult
+Male middle-aged adult
+Female middle-aged adult
+Male senior
+Female senior
+Male elderly
+Female elderly</C>
+<<<<<<< HEAD
+<D>Curly hair
+Wavy hair
+Straight hair
+Short hair
+Long hair
+Bald head</D>
+=======
+<D>Curly
+Wavy
+Straight
+Short
+Long
+No</D>
+>>>>>>> 7c9175c (Ok)
+<E>Very Light
+Light
+Medium
+Dark
+Very Dark</E>
+<F>Very Light
+Light
+Medium
+Dark
+Very Dark</F>
+<<<<<<< HEAD
+</Preset>
+=======
+</Preset>
+>>>>>>> 7c9175c (Ok)

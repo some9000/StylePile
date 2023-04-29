@@ -1,0 +1,93 @@
+<Preset>
+<Info>Generate a variety of monsters. Use Image type/Technology to set the main look. Concept/Direction/Adjective to give it a certain appearance. And use Feeling/Mood to either have a single feel for everyone or set it to random to have more variety between the images. Enjoy!</Info>
+<Positive>A [A] [B] with [C], in a [D][E]</Positive>
+<Negative>Empty background, Plain background, Single color background, Nudity</Negative>
+<X></X>
+<Y></Y>
+<A>Monstrous
+Terrifying
+Hideous
+Gruesome
+Abominable
+Grotesque
+Demonic
+Macabre
+Unearthly
+Eldritch
+Cursed
+Malevolent
+Diabolical
+Sinister
+Bloody</A>
+<B>Zombie
+Cyclops
+Mummy
+Ghost
+Kraken
+Harpy
+Siren
+Banshee
+Demon
+Succubus
+Hydra
+Chimera
+Alien
+Android
+Cyborg
+Monster
+Mutant
+Robot
+Clown monster
+Humanoid monster</B>
+<C>Mutated limbs
+Displaced facial features
+Abnormal skin texture
+Large or small body parts
+Exposed bones
+Exposed internal organs
+Multiple appendages
+Glowing body parts
+Mouth filled with sharp teeth
+Mouth with tentacles
+Secretions
+Split body parts
+Sharp body parts
+Oozing wounds
+Sores
+Insect-like features
+Parasitic organisms
+Missing limbs
+Bloody skin
+Slimy skin</C>
+<D>Dark
+Wet
+Abandoned
+Decaying
+Claustrophobic
+Mysterious
+Unsettling
+Haunted
+Isolated
+Industrial
+Unsanitary
+Overgrown
+Unstable
+Crowded
+Hostile</D>
+<E>Factory
+Laboratory
+Dungeon
+Sewer tunnel
+Abandoned hospital
+Graveyard
+Haunted mansion
+Nuclear power plant
+Crematorium
+Prison
+Morgue
+Asylum
+Catacombs
+Ghost town
+Toxic waste dump</E>
+<F></F>
+</Preset>
